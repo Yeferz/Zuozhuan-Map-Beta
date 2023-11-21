@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Qgis2web_alpha_version1"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Zuozhuan Map - Beta Version"
+	}
+}
