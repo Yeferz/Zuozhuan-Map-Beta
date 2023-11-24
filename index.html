@@ -7,6 +7,16 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 <!-- <script src="js/databaseObjectEncoding.js"></script> -->
+  <style>
+    #filter-box {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: white;
+      padding: 10px;
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
   <div id ="nav" style="background-color: rgb(255, 255, 255);">
@@ -18,6 +28,18 @@
     </nav>
     </div>
  <div id="map" style="height: 100vh; width: 100%;">
+  <div id="filter-box">
+  <h3>Search by name, polity or 漢字</h3>
+  <select id="searchBy">
+  <option value="name">Search by name</option>
+  <option value="polity">Search by polity</option>
+  <option value="hanzi">Search by hanzi</option>
+  </select>
+  <input type="text" id="searchInput" placeholder="Search for names..">
+  <button id="Search">Search</button>
+  <!-- Your filter buttons or options here -->
+  <!-- Add more buttons/options as needed -->
+</div>
   <script src="js/index.js"></script>
  </div>
 </body>

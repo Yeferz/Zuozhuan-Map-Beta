@@ -1,19 +1,39 @@
 /** @format */
 
-
-
-var map = L.map( 'map' ).setView( [ 34.669724, 112.442223 ], 10 );
-	L.tileLayer(
-		'https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=Suo6om3gY8XYXnDiI1sh',
-		{
-			maxZoom: 13,
-			attribution:
-				'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		}
-).addTo( map );
-
 let locales;
-fetch('js/data.json')
+let filterCondition = /[a-z]/;
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '© OpenStreetMap',
+});
+// Create a layer group to store markers
+var marker;
+var Esri_WorldStreetMap = L.tileLayer(
+	'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+	{
+		attribution:
+			'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
+	}
+);
+
+var map = L.map('map', {
+	center: [34.669724, 112.442223],
+	zoom: 10,
+	layers: [osm],
+});
+var markerGroup = L.layerGroup().addTo(map);
+
+var baseMaps = {
+	OpenStreetMap: osm,
+	WorldStreetMap: Esri_WorldStreetMap,
+};
+
+// var overlayMaps = {
+// 	Chu: Chu,
+// };
+var layerControl = L.control.layers(baseMaps).addTo(map);
+retrieveData = function () {
+	fetch('js/data.json')
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
@@ -22,35 +42,113 @@ fetch('js/data.json')
 		})
 		.then((data) => {
 			// Process the retrieved JSON data
-			console.log( data );
+			// console.log(data);
 			locales = data;
-			console.log( locales );
+			// console.log(locales);
 			// Use the retrieved data for further operations (e.g., creating markers on a map)
-			sortIndividualLocales = function ( data )
-			{
-				for ( let i = 0; i < data.length; i++ )
-				{
-					let indexedLocale = data[ i ];
-					console.log( indexedLocale );
-					console.log( indexedLocale.latitude );
-					var marker = L.marker( [ indexedLocale.latitude, indexedLocale.longitude ] ).addTo( map );
-					let indexedLocaleString = JSON.stringify(
-						indexedLocale.hanzi +
-							'</p><p>' +
-							indexedLocale.name +
-							'</p><p>' +
-							indexedLocale.polity +
-							'</p><p>' +
-							indexedLocale.entries
-					);
-					indexedLocaleString = indexedLocaleString.slice( 1, -1 );
-					console.log( indexedLocaleString );
-					marker.bindPopup(indexedLocaleString).openPopup();
-	}
+			sortIndividualLocales = function (data) {
+				for (let i = 0; i < data.length; i++) {
+					let indexedLocale = data[i];
+					// console.log(indexedLocale);
+					// console.log(indexedLocale.latitude);
+					if (
+						(searchBy === 'name' &&
+							filterCondition.test(indexedLocale.name) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99) ||
+						(searchBy === 'polity' &&
+							filterCondition.test(indexedLocale.polity) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99) ||
+						(searchBy === 'hanzi' &&
+							filterCondition.test(indexedLocale.hanzi) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99)
+					) {
+						//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
+						marker = L.marker([
+							indexedLocale.latitude,
+							indexedLocale.longitude,
+						]).addTo(markerGroup);
+						let indexedLocaleString = JSON.stringify(
+							indexedLocale.hanzi +
+								'</p><p>' +
+								indexedLocale.name +
+								'</p><p>' +
+								indexedLocale.polity +
+								'</p><p>' +
+								indexedLocale.entries
+						);
+						indexedLocaleString = indexedLocaleString.slice(1, -1);
+						// console.log(indexedLocaleString);
+						marker.bindPopup(indexedLocaleString).openPopup();
+					} else {
+						// console.log('filter this one out');
+					}
+				}
+			};
+			sortIndividualLocales(locales);
+		});
 };
-sortIndividualLocales(locales);
-} );
-		
+
+let inputResult = document.getElementById('searchInput');
+var searchBy = document.getElementById('searchBy').value;
+console.log(searchBy);
+console.log(inputResult);
+var searchPolity = document.getElementById('Search');
+function setPolity() {
+	console.log('Polity filter applied');
+	var searchValue = inputResult.value;
+	filterCondition = RegExp(searchValue);
+	console.log(filterCondition);
+	markerGroup.clearLayers();
+	retrieveData();
+}
+searchPolity.addEventListener('click', setPolity);
+
+// Function to remove all markers from the map
+// function removeAllMarkers() {
+// 	console.log('removeAllMarkersPressed');
+// 	// map.remove(marker); // Empty the 'markers' array
+// }
+// // Function to apply filter for Chu
+// var Qi = document.getElementById('Qi');
+// function applyFilterQi() {
+// 	console.log('Jin filter applied');
+// 	filterCondition = /Qi[^n]/;
+// 	markerGroup.clearLayers();
+// 	retrieveData();
+// }
+// Qi.addEventListener('click', applyFilterQi);
+// var Chu = document.getElementById('Chu');
+// function applyFilterChu() {
+// 	// Perform actions specific to Option 1
+// 	console.log('Chu filter applied');
+// 	filterCondition = /Chu/;
+// 	markerGroup.clearLayers();
+
+// 	// Add your filtering logic or actions here for Option 1
+// }
+// Chu.addEventListener('click', applyFilterChu);
+
+// var Jin = document.getElementById('Jin');
+// // Function to apply filter for Option 2
+// function applyFilterJin() {
+// 	console.log('Jin filter applied');
+// 	filterCondition = /Jin/;
+// 	markerGroup.clearLayers();
+// 	retrieveData();
+// }
+// Jin.addEventListener('click', applyFilterJin);
+
+// Add event listeners to the buttons
+
 // var marker = L.marker( [ 34.669724, 112.442223 ] ).addTo( map );
 // marker.bindPopup( '<b>Hello world!</b><br>I am a popup.' ).openPopup();
 
@@ -79,7 +177,6 @@ sortIndividualLocales(locales);
 // 		console.log('Connected to the database');
 // 	}
 // });
-
 
 // app.get('/data', (req, res) => {
 // 	db.all('SELECT * FROM locales_corrected', (err, rows) => {
@@ -122,3 +219,4 @@ sortIndividualLocales(locales);
 // 		console.log('Database connection closed.');
 // 	}
 // });
+retrieveData();
