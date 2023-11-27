@@ -16,6 +16,31 @@ var Esri_WorldStreetMap = L.tileLayer(
 			'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
 	}
 );
+var Stadia_StamenTerrainBackground = L.tileLayer(
+	'https://tiles.stadiamaps.com/tiles/stamen_terrain_background/{z}/{x}/{y}{r}.{ext}',
+	{
+		minZoom: 0,
+		maxZoom: 18,
+		attribution:
+			'&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		ext: 'png',
+	}
+);
+var Esri_WorldPhysical = L.tileLayer(
+	'https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
+	{
+		attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
+		maxZoom: 8,
+	}
+);
+var USGS_USImagery = L.tileLayer(
+	'https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}',
+	{
+		maxZoom: 20,
+		attribution:
+			'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>',
+	}
+);
 // const reignYears = {
 // 	Ai: [494, 467],
 // 	Ding: [508, 494],
@@ -37,13 +62,16 @@ var Esri_WorldStreetMap = L.tileLayer(
 var map = L.map('map', {
 	center: [34.669724, 112.442223],
 	zoom: 10,
-	layers: [osm],
+	layers: [Stadia_StamenTerrainBackground],
 });
 var markerGroup = L.layerGroup().addTo(map);
 
 var baseMaps = {
+	ESRI: Esri_WorldPhysical,
+	Stadia_Stamen: Stadia_StamenTerrainBackground,
 	OpenStreetMap: osm,
 	WorldStreetMap: Esri_WorldStreetMap,
+	USGS: USGS_USImagery,
 };
 
 // var overlayMaps = {
@@ -73,13 +101,30 @@ fetch('js/data.json')
 					indexedLocale.latitude < 42 &&
 					indexedLocale.latitude > 27 &&
 					indexedLocale.longitude < 123 &&
-					indexedLocale.longitude > 99
+					indexedLocale.longitude > 99 &&
+					indexedLocale.hanzi != null
 				) {
+					// var hanziLength = toString(indexedLocale.hanzi);
+					let chineseCharactersRegex =
+						/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
+					let labelChinese = indexedLocale.hanzi;
+					console.log(labelChinese);
+					labelChinese.replace(chineseCharactersRegex, '');
+					// let chineseOnlyText = indexedLocale.hanzi
+					// 	.match(chineseCharactersRegex)
+					// 	.join('');
 					//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
-					marker = L.marker([
-						indexedLocale.latitude,
-						indexedLocale.longitude,
-					]).addTo(markerGroup);
+					markerStyle = L.divIcon({
+						className: 'custom-marker',
+						html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
+						iconSize: [labelChinese * 1.5, labelChinese * 4],
+					});
+					localeMarker = L.marker(
+						[indexedLocale.latitude, indexedLocale.longitude],
+						{
+							icon: markerStyle,
+						}
+					).addTo(markerGroup);
 					let indexedLocaleString = JSON.stringify(
 						indexedLocale.hanzi +
 							'</p><p>' +
@@ -87,11 +132,13 @@ fetch('js/data.json')
 							'</p><p>' +
 							indexedLocale.polity +
 							'</p><p>' +
+							indexedLocale.location +
+							'</p><p>' +
 							indexedLocale.entries
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
-					marker.bindPopup(indexedLocaleString).openPopup();
+					localeMarker.bindPopup(indexedLocaleString).openPopup();
 				} else {
 					// console.log('filter this one out');
 				}
@@ -125,25 +172,43 @@ retrieveData = function () {
 							indexedLocale.latitude < 42 &&
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
-							indexedLocale.longitude > 99) ||
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null) ||
 						(searchBy === 'polity' &&
 							filterCondition.test(indexedLocale.polity) &&
 							indexedLocale.latitude < 42 &&
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
-							indexedLocale.longitude > 99) ||
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null) ||
 						(searchBy === 'hanzi' &&
 							filterCondition.test(indexedLocale.hanzi) &&
 							indexedLocale.latitude < 42 &&
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
-							indexedLocale.longitude > 99)
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null)
 					) {
+						let chineseCharactersRegex =
+							/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
+						let labelChinese = indexedLocale.hanzi;
+						console.log(labelChinese);
+						labelChinese.replace(chineseCharactersRegex, '');
+						// let chineseOnlyText = indexedLocale.hanzi
+						// 	.match(chineseCharactersRegex)
+						// 	.join('');
 						//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
-						marker = L.marker([
-							indexedLocale.latitude,
-							indexedLocale.longitude,
-						]).addTo(markerGroup);
+						markerStyle = L.divIcon({
+							className: 'custom-marker',
+							html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
+							iconSize: [labelChinese * 1.5, labelChinese * 4],
+						});
+						localeMarker = L.marker(
+							[indexedLocale.latitude, indexedLocale.longitude],
+							{
+								icon: markerStyle,
+							}
+						).addTo(markerGroup);
 						let indexedLocaleString = JSON.stringify(
 							indexedLocale.hanzi +
 								'</p><p>' +
@@ -151,11 +216,13 @@ retrieveData = function () {
 								'</p><p>' +
 								indexedLocale.polity +
 								'</p><p>' +
+								indexedLocale.location +
+								'</p><p>' +
 								indexedLocale.entries
 						);
 						indexedLocaleString = indexedLocaleString.slice(1, -1);
 						// console.log(indexedLocaleString);
-						marker.bindPopup(indexedLocaleString).openPopup();
+						localeMarker.bindPopup(indexedLocaleString).openPopup();
 					} else {
 						// console.log('filter this one out');
 					}

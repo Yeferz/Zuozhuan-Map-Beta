@@ -1,5 +1,25 @@
 /* required styles */
 
+	/* CSS for custom marker styling */
+.custom-marker {
+    position: relative;
+	text-align: center;
+    display: inline-flex;
+	border: #222;
+    padding: 5px; /* Padding around the text */
+    background-color: rgb(0, 0, 0);
+    color: white;
+	border: #f4f4f4;
+	border-style: solid;
+    border-radius: 10px;
+    font-size: 14px;
+	border-radius: 0%;
+}
+
+.marker-text {
+    font-size: 14px;
+    font-weight: bold;
+}
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
@@ -638,5 +658,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	margin-left: -12px;
 	border-right-color: #fff;
 	}
+
+
 
 	
