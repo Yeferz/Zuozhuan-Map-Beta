@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <head>
   <title>Master Zuo's Cartographer</title>
-    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="./css/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
 <!-- <script src="js/databaseObjectEncoding.js"></script> -->
-  <style>
-    #filter-box {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background-color: white;
-      padding: 10px;
-      z-index: 1000;
-    }
-  </style>
 </head>
 <body>
   <div id ="nav" style="background-color: rgb(255, 255, 255);">
@@ -32,7 +22,7 @@
   <select id="searchBy">
   <option value="name">Search by name</option>
   <option value="polity">Search by polity</option>
-  <option value="hanzi">Search by hanzi</option>
+  <option value="hanzi">Search by 漢字</option>
   </select>
   <input type="text" id="searchInput" placeholder="Search for names..">
   <button id="Search">Search</button>

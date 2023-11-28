@@ -62,7 +62,7 @@ var USGS_USImagery = L.tileLayer(
 var map = L.map('map', {
 	center: [34.669724, 112.442223],
 	zoom: 10,
-	layers: [Stadia_StamenTerrainBackground],
+	layers: [Esri_WorldPhysical],
 });
 var markerGroup = L.layerGroup().addTo(map);
 
