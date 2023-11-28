@@ -1,7 +1,5 @@
 /** @format */
-// //Connect to the database
-// const sqlite3 = require('sqlite3').verbose();
-// const dbPath = '"C:Users/naiya/Zuozhuan Map - Beta Version/Database.sqlite"';
+//This is the script which connects to the database and writes the data.json file.
 
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');

@@ -1,5 +1,5 @@
 /** @format */
-
+//Map baselayers are all defined here, as are the filter conditions so the user can search locales on the map.
 let searchBy;
 let locales;
 let filterCondition = /[a-z]/;
@@ -7,23 +7,14 @@ var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '© OpenStreetMap',
 });
-// Create a layer group to store markers
+
 var marker;
-var Esri_WorldStreetMap = L.tileLayer(
-	'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+var Esri_WorldTerrain = L.tileLayer(
+	'https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
 	{
 		attribution:
-			'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
-	}
-);
-var Stadia_StamenTerrainBackground = L.tileLayer(
-	'https://tiles.stadiamaps.com/tiles/stamen_terrain_background/{z}/{x}/{y}{r}.{ext}',
-	{
-		minZoom: 0,
-		maxZoom: 18,
-		attribution:
-			'&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-		ext: 'png',
+			'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+		maxZoom: 13,
 	}
 );
 var Esri_WorldPhysical = L.tileLayer(
@@ -41,6 +32,15 @@ var USGS_USImagery = L.tileLayer(
 			'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>',
 	}
 );
+var Esri_WorldStreetMap = L.tileLayer(
+	'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+	{
+		attribution:
+			'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
+	}
+);
+//This is something I hope to use later to add a year filter so that the user can search by date. At the moment I haven't developed this part further since it's quite complicated to implement
+
 // const reignYears = {
 // 	Ai: [494, 467],
 // 	Ding: [508, 494],
@@ -67,18 +67,16 @@ var map = L.map('map', {
 var markerGroup = L.layerGroup().addTo(map);
 
 var baseMaps = {
-	ESRI: Esri_WorldPhysical,
-	Stadia_Stamen: Stadia_StamenTerrainBackground,
+	ESRI_Physical: Esri_WorldPhysical,
+	ESRI_Terrain: Esri_WorldTerrain,
 	OpenStreetMap: osm,
-	WorldStreetMap: Esri_WorldStreetMap,
+	ESRI_WorldStreetMap: Esri_WorldStreetMap,
 	USGS: USGS_USImagery,
 };
 
-// var overlayMaps = {
-// 	Chu: Chu,
-// };
 var layerControl = L.control.layers(baseMaps).addTo(map);
 
+//This is the bit which initially collects the data from data.json and turns it into markers on the leaflet map, this defines what you see when you first open the main page.
 fetch('js/data.json')
 	.then((response) => {
 		if (!response.ok) {
@@ -105,6 +103,8 @@ fetch('js/data.json')
 					indexedLocale.hanzi != null
 				) {
 					// var hanziLength = toString(indexedLocale.hanzi);
+
+					// This was a failed attempt to define the labels such that the user only sees Chinese characters, I will attempt to get this bit working at a later date.
 					let chineseCharactersRegex =
 						/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
 					let labelChinese = indexedLocale.hanzi;
@@ -114,6 +114,7 @@ fetch('js/data.json')
 					// 	.match(chineseCharactersRegex)
 					// 	.join('');
 					//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
+					//This creates the markers and adjusts the size based on the amount of text.
 					markerStyle = L.divIcon({
 						className: 'custom-marker',
 						html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
@@ -125,6 +126,7 @@ fetch('js/data.json')
 							icon: markerStyle,
 						}
 					).addTo(markerGroup);
+					//This defines the popup which you see when you click on a marker.
 					let indexedLocaleString = JSON.stringify(
 						indexedLocale.hanzi +
 							'</p><p>' +
@@ -146,7 +148,7 @@ fetch('js/data.json')
 		};
 		sortIndividualLocalesOnLoad(locales);
 	});
-
+//This is the same function as earlier but this time filtered with the user defined search term.
 retrieveData = function () {
 	fetch('js/data.json')
 		.then((response) => {
@@ -232,6 +234,7 @@ retrieveData = function () {
 		});
 };
 
+//This is where the search terms are implemented and the function called which implements the user's search
 let inputResult = document.getElementById('searchInput');
 let clearResult = document.getElementById('Clear');
 console.log(searchBy);
@@ -246,6 +249,7 @@ function setPolity() {
 	markerGroup.clearLayers();
 	retrieveData();
 }
+//This function clears the search and reverts to the initial map state
 function clearPolity() {
 	console.log('Polity cleared');
 	var searchValue = /[a-z]/;
@@ -259,6 +263,8 @@ function clearPolity() {
 searchPolity.addEventListener('click', setPolity);
 clearResult.addEventListener('click', clearPolity);
 retrieveData();
+
+//These are some buttons which I wrote but decided not to include, in future I might re-implement them so I've left the code commented out.
 
 // Function to remove all markers from the map
 // function removeAllMarkers() {
