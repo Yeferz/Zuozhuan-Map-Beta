@@ -75,7 +75,7 @@ var baseMaps = {
 };
 
 var layerControl = L.control.layers(baseMaps).addTo(map);
-
+let outScopeSlider;
 //This is the bit which initially collects the data from data.json and turns it into markers on the leaflet map, this defines what you see when you first open the main page.
 fetch('js/data.json')
 	.then((response) => {
@@ -108,7 +108,7 @@ fetch('js/data.json')
 					let chineseCharactersRegex =
 						/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
 					let labelChinese = indexedLocale.hanzi;
-					console.log(labelChinese);
+					// console.log(labelChinese);
 					labelChinese.replace(chineseCharactersRegex, '');
 					// let chineseOnlyText = indexedLocale.hanzi
 					// 	.match(chineseCharactersRegex)
@@ -147,7 +147,18 @@ fetch('js/data.json')
 			}
 		};
 		sortIndividualLocalesOnLoad(locales);
+		var slidervar = document.getElementById('slider');
+		noUiSlider.create(slidervar, {
+			connect: true,
+			start: [480, 722],
+			range: {
+				min: 480,
+				max: 722,
+			},
+		outScopeSlider = noUiSlider;
+		});
 	});
+console.log(outScopeSlider);
 //This is the same function as earlier but this time filtered with the user defined search term.
 retrieveData = function () {
 	fetch('js/data.json')
@@ -233,6 +244,27 @@ retrieveData = function () {
 			sortIndividualLocales(locales);
 		});
 };
+//This is the slider, taken from here https://digital-geography.com/filter-leaflet-maps-slider/
+
+var inputNumberMin = document.getElementById('input-number-min');
+var inputNumberMax = document.getElementById('input-number-max');
+inputNumberMin.addEventListener('change', function () {
+	slidervar.noUiSlider.set([this.value, null]);
+});
+inputNumberMax.addEventListener('change', function () {
+	slidervar.noUiSlider.set([null, this.value]);
+});
+slidervar.noUiSlider.on('update', function (values, handle) {
+	//handle = 0 if min-slider is moved and handle = 1 if max slider is moved
+	if (handle == 0) {
+		document.getElementById('input-number-min').value = values[0];
+	} else {
+		document.getElementById('input-number-max').value = values[1];
+	}
+	//we will definitely do more here...wait
+});
+let rangeMin = document.getElementById('input-number-min').value;
+let rangeMax = document.getElementById('input-number-max').value;
 
 //This is where the search terms are implemented and the function called which implements the user's search
 let inputResult = document.getElementById('searchInput');

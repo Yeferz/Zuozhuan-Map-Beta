@@ -5,6 +5,11 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+     <!-- <link rel="stylesheet" href="/node_modules/nouislider/dist/nouislider.css" />
+<script src="/node_modules/nouislider/dist/nouislider.js"></script> -->
+<link rel="stylesheet" href="/node_modules/nouislider/dist/nouislider.css" />
+<script src="/node_modules/nouislider/dist/nouislider.js"></script>
+
 <!-- <script src="js/databaseObjectEncoding.js"></script> -->
 </head>
 <body>
@@ -16,7 +21,7 @@
       <a href="./translations.html">Translations</a>
     </nav>
     </div>
- <div id="map" style="height: 100vh; width: 100%;">
+ <div id="map" style="height: 100vh; width: 100%; z-index: 0;">
   <div id="filter-box">
   <h3>Search by name, polity or 漢字</h3>
   <select id="searchBy">
@@ -29,6 +34,11 @@
   <button id="Clear">Clear</button>
   <!-- Your filter buttons or options here -->
   <!-- Add more buttons/options as needed -->
+</div>
+<div id="slider" style="top: 100px; right: 10px; margin: 10px 25px; z-index: 10000;"></div>
+<div style="margin-right: 50px; margin-left: 10px; width: 90%; margin-bottom: 10px; text-align: center;">
+<input type="number" min='480' max='722' id="input-number-min">
+<input type="number" min='480' max='722' id="input-number-max">
 </div>
   <script src="js/index.js"></script>
  </div>
