@@ -175,96 +175,96 @@ let filterCondition = /[a-z]/;
 			});
 		// console.log(outScopeSlider);
 		//This is the same function as earlier but this time filtered with the user defined search term.
-		retrieveData = function () {
-			fetch('js/data.json')
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					return response.json();
-				})
-				.then((data) => {
-					// Process the retrieved JSON data
-					// console.log(data);
-					locales = data;
-					// console.log(locales);
-					// Use the retrieved data for further operations (e.g., creating markers on a map)
-					sortIndividualLocales = function (data) {
-						for (let i = 0; i < data.length; i++) {
-							let indexedLocale = data[i];
-							// console.log(indexedLocale);
-							// console.log(indexedLocale.latitude);
-							if (
-								(searchBy === 'name' &&
-									filterCondition.test(indexedLocale.name) &&
-									indexedLocale.latitude < 42 &&
-									indexedLocale.latitude > 27 &&
-									indexedLocale.longitude < 123 &&
-									indexedLocale.longitude > 99 &&
-									indexedLocale.hanzi != null &&
-									indexedLocale.years >= rangeLow &&
-									indexedLocale.years <= rangeHigh) ||
-								(searchBy === 'polity' &&
-									filterCondition.test(indexedLocale.polity) &&
-									indexedLocale.latitude < 42 &&
-									indexedLocale.latitude > 27 &&
-									indexedLocale.longitude < 123 &&
-									indexedLocale.longitude > 99 &&
-									indexedLocale.hanzi != null &&
-									indexedLocale.years >= rangeLow &&
-									indexedLocale.years <= rangeHigh) ||
-								(searchBy === 'hanzi' &&
-									filterCondition.test(indexedLocale.hanzi) &&
-									indexedLocale.latitude < 42 &&
-									indexedLocale.latitude > 27 &&
-									indexedLocale.longitude < 123 &&
-									indexedLocale.longitude > 99 &&
-									indexedLocale.hanzi != null &&
-									indexedLocale.years >= rangeLow &&
-									indexedLocale.years <= rangeHigh)
-							) {
-								let chineseCharactersRegex =
-									/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
-								let labelChinese = indexedLocale.hanzi;
-								// console.log(labelChinese);
-								labelChinese.replace(chineseCharactersRegex, '');
-								// let chineseOnlyText = indexedLocale.hanzi
-								// 	.match(chineseCharactersRegex)
-								// 	.join('');
-								//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
-								markerStyle = L.divIcon({
-									className: 'custom-marker',
-									html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
-									iconSize: [labelChinese * 1.5, labelChinese * 4],
-								});
-								localeMarker = L.marker(
-									[indexedLocale.latitude, indexedLocale.longitude],
-									{
-										icon: markerStyle,
-									}
-								).addTo(markerGroup);
-								let indexedLocaleString = JSON.stringify(
-									indexedLocale.hanzi +
-										'</p><p>' +
-										indexedLocale.name +
-										'</p><p>' +
-										indexedLocale.polity +
-										'</p><p>' +
-										indexedLocale.location +
-										'</p><p>' +
-										indexedLocale.entries
-								);
-								indexedLocaleString = indexedLocaleString.slice(1, -1);
-								// console.log(indexedLocaleString);
-								localeMarker.bindPopup(indexedLocaleString).openPopup();
-							} else {
-								// console.log('filter this one out');
+retrieveData = function () {
+	fetch('js/data.json')
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then((data) => {
+			// Process the retrieved JSON data
+			// console.log(data);
+			locales = data;
+			// console.log(locales);
+			// Use the retrieved data for further operations (e.g., creating markers on a map)
+			sortIndividualLocales = function (data) {
+				for (let i = 0; i < data.length; i++) {
+					let indexedLocale = data[i];
+					// console.log(indexedLocale);
+					// console.log(indexedLocale.latitude);
+					if (
+						(searchBy === 'name' &&
+							filterCondition.test(indexedLocale.name) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh) ||
+						(searchBy === 'polity' &&
+							filterCondition.test(indexedLocale.polity) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh) ||
+						(searchBy === 'hanzi' &&
+							filterCondition.test(indexedLocale.hanzi) &&
+							indexedLocale.latitude < 42 &&
+							indexedLocale.latitude > 27 &&
+							indexedLocale.longitude < 123 &&
+							indexedLocale.longitude > 99 &&
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh)
+					) {
+						let chineseCharactersRegex =
+							/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
+						let labelChinese = indexedLocale.hanzi;
+						// console.log(labelChinese);
+						labelChinese.replace(chineseCharactersRegex, '');
+						// let chineseOnlyText = indexedLocale.hanzi
+						// 	.match(chineseCharactersRegex)
+						// 	.join('');
+						//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
+						markerStyle = L.divIcon({
+							className: 'custom-marker',
+							html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
+							iconSize: [labelChinese * 1.5, labelChinese * 4],
+						});
+						localeMarker = L.marker(
+							[indexedLocale.latitude, indexedLocale.longitude],
+							{
+								icon: markerStyle,
 							}
-						}
-					};
-					sortIndividualLocales(locales);
-				});
-		};
+						).addTo(markerGroup);
+						let indexedLocaleString = JSON.stringify(
+							indexedLocale.hanzi +
+								'</p><p>' +
+								indexedLocale.name +
+								'</p><p>' +
+								indexedLocale.polity +
+								'</p><p>' +
+								indexedLocale.location +
+								'</p><p>' +
+								indexedLocale.entries
+						);
+						indexedLocaleString = indexedLocaleString.slice(1, -1);
+						// console.log(indexedLocaleString);
+						localeMarker.bindPopup(indexedLocaleString).openPopup();
+					} else {
+						// console.log('filter this one out');
+					}
+				}
+			};
+			sortIndividualLocales(locales);
+		});
+};
 
 //This is where the search terms are implemented and the function called which implements the user's search
 let inputResult = document.getElementById('searchInput');
@@ -293,6 +293,8 @@ function clearPolity() {
 	retrieveData();
 }
 function dateFilter() {
+	var searchValue = inputResult.value;
+	filterCondition = RegExp(searchValue);
 	console.log(`dates changed to ${rangeHigh}BC - ${rangeLow}BC`);
 	markerGroup.clearLayers();
 	retrieveData();
