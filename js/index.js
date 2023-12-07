@@ -3,6 +3,28 @@
 let searchBy;
 let locales;
 let filterCondition = /[a-z]/;
+//This is the slider, taken from here https://digital-geography.com/filter-leaflet-maps-slider/
+		var slidervar = document.getElementById('slider');
+		noUiSlider.create(slidervar, {
+			connect: true,
+			start: [480, 722],
+			range: {
+				min: 480,
+				max: 722,
+			},
+		} );
+
+let inputNumberMin = document.getElementById('input-number-min');
+let inputNumberMax = document.getElementById('input-number-max');
+let rangeHigh;
+let rangeLow;
+inputNumberMin.addEventListener('change', function () {
+	slidervar.noUiSlider.set([this.value, null]);
+});
+inputNumberMax.addEventListener('change', function () {
+	slidervar.noUiSlider.set([null, this.value]);
+});
+
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '© OpenStreetMap',
@@ -147,18 +169,8 @@ fetch('js/data.json')
 			}
 		};
 		sortIndividualLocalesOnLoad(locales);
-		var slidervar = document.getElementById('slider');
-		noUiSlider.create(slidervar, {
-			connect: true,
-			start: [480, 722],
-			range: {
-				min: 480,
-				max: 722,
-			},
-		outScopeSlider = noUiSlider;
-		});
 	});
-console.log(outScopeSlider);
+// console.log(outScopeSlider);
 //This is the same function as earlier but this time filtered with the user defined search term.
 retrieveData = function () {
 	fetch('js/data.json')
@@ -186,21 +198,27 @@ retrieveData = function () {
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
 							indexedLocale.longitude > 99 &&
-							indexedLocale.hanzi != null) ||
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh) ||
 						(searchBy === 'polity' &&
 							filterCondition.test(indexedLocale.polity) &&
 							indexedLocale.latitude < 42 &&
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
 							indexedLocale.longitude > 99 &&
-							indexedLocale.hanzi != null) ||
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh) ||
 						(searchBy === 'hanzi' &&
 							filterCondition.test(indexedLocale.hanzi) &&
 							indexedLocale.latitude < 42 &&
 							indexedLocale.latitude > 27 &&
 							indexedLocale.longitude < 123 &&
 							indexedLocale.longitude > 99 &&
-							indexedLocale.hanzi != null)
+							indexedLocale.hanzi != null &&
+							indexedLocale.years >= rangeLow &&
+							indexedLocale.years <= rangeHigh)
 					) {
 						let chineseCharactersRegex =
 							/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
@@ -244,33 +262,12 @@ retrieveData = function () {
 			sortIndividualLocales(locales);
 		});
 };
-//This is the slider, taken from here https://digital-geography.com/filter-leaflet-maps-slider/
-
-var inputNumberMin = document.getElementById('input-number-min');
-var inputNumberMax = document.getElementById('input-number-max');
-inputNumberMin.addEventListener('change', function () {
-	slidervar.noUiSlider.set([this.value, null]);
-});
-inputNumberMax.addEventListener('change', function () {
-	slidervar.noUiSlider.set([null, this.value]);
-});
-slidervar.noUiSlider.on('update', function (values, handle) {
-	//handle = 0 if min-slider is moved and handle = 1 if max slider is moved
-	if (handle == 0) {
-		document.getElementById('input-number-min').value = values[0];
-	} else {
-		document.getElementById('input-number-max').value = values[1];
-	}
-	//we will definitely do more here...wait
-});
-let rangeMin = document.getElementById('input-number-min').value;
-let rangeMax = document.getElementById('input-number-max').value;
 
 //This is where the search terms are implemented and the function called which implements the user's search
 let inputResult = document.getElementById('searchInput');
 let clearResult = document.getElementById('Clear');
 console.log(searchBy);
-console.log(inputResult);
+console.log(inputResult.value);
 var searchPolity = document.getElementById('Search');
 function setPolity() {
 	console.log('Polity filter applied');
@@ -292,6 +289,26 @@ function clearPolity() {
 	markerGroup.clearLayers();
 	retrieveData();
 }
+function dateFilter() {
+	console.log(`dates changed to ${rangeHigh}BC - ${rangeLow}BC`);
+	markerGroup.clearLayers();
+	retrieveData();
+}
+slidervar.noUiSlider.on('update', function (values, handle) {
+	//handle = 0 if min-slider is moved and handle = 1 if max slider is moved
+	if (handle == 0) {
+		document.getElementById('input-number-min').value = values[0];
+		// console.log(`input no min changed to ${values[0]}`);
+		rangeLow = values[0];
+		dateFilter();
+	} else {
+		document.getElementById('input-number-max').value = values[1];
+		// console.log(`input no max changed to ${values[1]}`);
+		rangeHigh = values[1];
+		dateFilter();
+	}
+	//we will definitely do more here...wait
+});
 searchPolity.addEventListener('click', setPolity);
 clearResult.addEventListener('click', clearPolity);
 retrieveData();
