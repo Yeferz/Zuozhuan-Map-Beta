@@ -9,6 +9,7 @@
 <script src="/node_modules/nouislider/dist/nouislider.js"></script> -->
 <link rel="stylesheet" href="/node_modules/nouislider/dist/nouislider.css" />
 <script src="/node_modules/nouislider/dist/nouislider.js"></script>
+<script src="js/wNumb.js"></script>
 
 <!-- <script src="js/databaseObjectEncoding.js"></script> -->
 </head>
@@ -23,7 +24,7 @@
     </div>
  <div id="map" style="height: 100vh; width: 100%; z-index: 0;">
   <div id="filter-box">
-  <h3>Search by name, polity or 漢字</h3>
+  <h3>Search by name, polity or 漢字, and set a date range with the slider</h3>
   <select id="searchBy">
   <option value="name">Search by name</option>
   <option value="polity">Search by polity</option>
@@ -37,8 +38,8 @@
 </div>
 <div id="slider" style="z-index: 10000;"></div>
 <div style="margin-bottom: 10px; margin-left: 10px; width: 90%; margin-bottom: 10px; text-align: center;; z-index: 10000;">
-<input type="number" min='480' max='722' id="input-number-min">
-<input type="number" min='480' max='722' id="input-number-max">
+<input type="number" min='480' max='722' id="input-number-min" style="visibility: hidden;">
+<input type="number" min='480' max='722' id="input-number-max" style="visibility: hidden;">
 </div>
   <script src="js/index.js"></script>
  </div>

@@ -1,4 +1,6 @@
 /** @format */
+
+
 //Map baselayers are all defined here, as are the filter conditions so the user can search locales on the map.
 let searchBy;
 let locales;
@@ -7,6 +9,10 @@ let rangeHigh = 722;
 let rangeLow = 480;
 //This is the slider, taken from here https://digital-geography.com/filter-leaflet-maps-slider/
 var slidervar = document.getElementById('slider');
+var numberFormatter = wNumb({
+	postfix: ` BC`,
+	decimals: 0,
+});
 noUiSlider.create(slidervar, {
 	connect: true,
 	start: [480, 722],
@@ -14,7 +20,15 @@ noUiSlider.create(slidervar, {
 		min: 480,
 		max: 722,
 	},
-	tooltips: [true, true], // Show tooltips for both handles
+	tooltips: [numberFormatter, numberFormatter], // Show tooltips for both handles
+	format: {
+		to: function (value) {
+			return Math.round(value); // Round the value to the nearest integer for display
+		},
+		from: function (value) {
+			return value; // Return the raw value when slider changes
+		},
+	},
 	direction: 'rtl',
 });
 
@@ -248,24 +262,24 @@ retrieveData = function () {
 //This is where the search terms are implemented and the function called which implements the user's search
 let inputResult = document.getElementById('searchInput');
 let clearResult = document.getElementById('Clear');
-console.log(searchBy);
-console.log(inputResult.value);
+// console.log(searchBy);
+// console.log(inputResult.value);
 var searchPolity = document.getElementById('Search');
 function setPolity() {
-	console.log('Polity filter applied');
+	// console.log('Polity filter applied');
 	searchBy = document.getElementById('searchBy').value;
 	var searchValue = inputResult.value;
 	filterCondition = RegExp(searchValue);
-	console.log(filterCondition);
+	// console.log(filterCondition);
 	markerGroup.clearLayers();
 	retrieveData();
 }
 //This function clears the search and reverts to the initial map state
 function clearPolity() {
-	console.log('Polity cleared');
+	// console.log('Polity cleared');
 	var searchValue = /[a-z]/;
 	filterCondition = RegExp(searchValue);
-	console.log(filterCondition);
+	// console.log(filterCondition);
 	searchBy = 'name';
 	searchInput.value = '';
 	markerGroup.clearLayers();
@@ -287,11 +301,11 @@ slidervar.noUiSlider.on('update', function (values, handle) {
 	if (handle == 0) {
 		document.getElementById('input-number-min').value = values[0];
 		// console.log(`input no min changed to ${values[0]}`);
-		rangeLow = values[0];
+		rangeLow = Math.round(values[0]);
 	} else {
 		document.getElementById('input-number-max').value = values[1];
 		// console.log(`input no max changed to ${values[1]}`);
-		rangeHigh = values[1];
+		rangeHigh = Math.round(values[1]);
 	}
 	//we will definitely do more here...wait
 });
