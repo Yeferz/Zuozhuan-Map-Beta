@@ -32,138 +32,111 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 // const removeYears = `ALTER TABLE locales_corrected DROP COLUMN ${yearsColumn};`;
 // db.all(removeYears);
 // db.all(createYears);
-let ogcKey = 0;
-let yearsArr = [];
-let reignsArr = [];
-let uniqueReignsArr = [];
-function yearsObject(id, years) {
-	this.id = id;
-	this.years = years;
-}
-let idRef;
-// Perform a query to select rows from a table
+// let ogcKey = 0;
+// let yearsArr = [];
+// let reignsArr = [];
+// let uniqueReignsArr = [];
+// function yearsObject(id, years) {
+// 	this.id = id;
+// 	this.years = years;
+// }
+
+let dates = '';
+let idLogger = 1;
 const query = 'SELECT * FROM locales_corrected';
 db.all(query, [], (err, rows) => {
 	if (err) {
 		console.error(err.message);
 		return;
 	}
+
+	//Run this bit to clear the values in the years column
+	db.run(`UPDATE locales_corrected SET years = NULL;`, (err) => {
+		if (err) {
+			return console.log(err.message);
+		}
+		console.log('years set to NULL');
+	});
 	// Loop through the rows
 	for (const row of rows) {
 		const stopValue = row.entries; // Replace 'columnName' with the name of your column
-
+		let sliceKeyUpdate;
 		// Check if stopValue matches any key in reignYears
 		for (const key in reignYears) {
 			const regexPattern = new RegExp(`\\b${key}\\b`);
+			const keyString = key.toString();
 			if (regexPattern.test(stopValue)) {
-				const intValue = parseInt(stopValue.match(/\d+/)[0]);
-				const result = reignYears[key] - intValue;
-				// console.log(
-				// 	`Entry: ${stopValue}, Matched Key: ${key}, Result: ${result}`
-				// );
-				// console.log(row.ogc_fid);
-				if (row.ogc_fid > ogcKey) {
-					ogcKey++;
-					yearsArr = [];
+				const mapFilterRegex = new RegExp(`See map [0-9]`);
+				const entriesString = stopValue.toString();
+				const entriesStringMapRemoved = entriesString.replace(
+					mapFilterRegex,
+					``
+				);
+				const sliceKey = entriesStringMapRemoved.indexOf(keyString);
+				const reignString = entriesStringMapRemoved.slice(
+					sliceKey,
+					sliceKeyUpdate
+				);
+				sliceKeyUpdate = sliceKey;
+				const wholeIntegerReigns = reignString.replaceAll(/\.\S+(?=\s|$)/g, '');
+				const numbersOnly = wholeIntegerReigns.replace(keyString, '');
+				const entryNumbers = numbersOnly.split(' ');
+				const entryNumbersArr = entryNumbers.map(function (entry) {
+					return parseInt(entry);
+				});
+				function NaNfilter(value, index, array) {
+					return value > 0;
 				}
-				yearsArr.push(result);
-				// console.log(ogcKey);
-				const yearsArrString = yearsArr.toString();
-				// console.log(yearsArr);
-				// console.log(yearsArrString);
-				// yearsArrString.push( yearsObject );
-				const reignObject = new yearsObject(row.ogc_fid, yearsArrString);
-				reignsArr.push(reignObject);
-				// console.log(reignsArr);
-				// const pushQuery = `SELECT ogc_fid, years FROM locales_corrected CASE WHEN ogc_fid = ${row.ogc_fid} THEN INSERT INTO locales_corrected (years) VALUES ${result}`;
-				// const pushQuery = `WHERE ogc_fid LIKE ${row.ogc_fid} INSERT INTO locales_corrected (years) VALUES (${result})`;
+				const filteredEntryNumbersArr = entryNumbersArr.filter(NaNfilter);
+				const yearNumbers = filteredEntryNumbersArr.map(function (entry) {
+					return reignYears[key] - entry;
+				});
+				const yearsToString = yearNumbers.toString(',');
+				const rowNumber = row.ogc_fid;
+				function fullEntryString(currentDates) {
+					if (rowNumber === idLogger) {
+						return currentDates.concat(',', yearsToString);
+					} else {
+						idLogger++;
+						return yearsToString;
+					}
+				}
+				dates = fullEntryString(dates);
+				const yearsQuery = `UPDATE locales_corrected SET years='${dates}' WHERE ogc_fid='${rowNumber}'`;
+				db.run(yearsQuery, function (err) {
+					if (err) {
+						console.error('Error updating database:', err.message);
+					} else {
+						console.log('Database updated successfully');
+					}
+				});
+				console.log(
+					stopValue,
+					row.ogc_fid,
+					// regexPattern,
+					// mapFilterRegex,
+					// entriesString,
+					// entriesStringMapRemoved,
+					// sliceKey,
+					// keyString,
+					// reignString,
+					// sliceKeyUpdate,
+					// decimalRegex,
+					// wholeIntegerReigns,
+					// numbersOnly,
+					// entryNumbers,
+					// entryNumbersArr,
+					// filteredEntryNumbersArr,
+					reignYears[key],
+					// yearNumbers,
+					// yearsQuery,
+					yearsToString,
+					rowNumber,
+					dates,
+					idLogger
+				);
 			}
 		}
-	}
-	// Loop through the rows
-	// for (const row of rows) {
-	// 	const stopValue = row.entries; // Replace 'columnName' with the name of your column
-	// 	if (stopValue.match(reignYears)) {
-	// 		const matches = stopValue.match(reignYears);
-	// 		console.log(`break`, matches);
-	// 		const reignBreak = /;/;
-	// 		const reignString = String(matches.input);
-	// 		const reign = reignString.split(reignBreak);
-	// 		const stringRegex = /[a-z]/;
-	// 		const discreetEntry = / /;
-	// 		let reignMatch;
-
-	// 		const integerRegex = '.';
-	// 		const reignIntegers = reign.forEach((entry) => {
-	// 			entry.slice(discreetEntry);
-	// 		});
-	// 		// reignIntegers();
-	// 		console.log(reign);
-	// 		console.log(reignString);
-	// 		// console.log(reignIntegers);
-	// 		// const assignedReign = /n+[a-z]/;
-	// 		reign.forEach((discreetEntry) => {
-	// 			// const assignedReign = reign.match(reignYears);
-	// 			// const specificReign = reignYears.match(assignedReign);
-	// 			if (discreetEntry.match(stringRegex)) {
-	// 				// console.log(`discreet entry`, discreetEntry);
-	// 				splitDiscreetEntry = discreetEntry.split(' ');
-	// 				reignYearsRegexp = RegExp(reignYears);
-	// 				splitDiscreetEntry.sort();
-	// 				console.log(splitDiscreetEntry);
-	// 				const integerFinder = /.[*]/;
-	// 				splitDiscreetEntry.forEach((entry) => {
-	// 					const dotIndex = entry.indexOf('.');
-	// 					console.log(dotIndex);
-	// 					if (dotIndex > 0) {
-	// 						const splitDiscreetEntry2 = entry.slice(dotIndex);
-	// 						return splitDiscreetEntry2;
-	// 					}
-	// 					console.log(splitDiscreetEntry2);
-	// 				});
-	// 				console.log(splitDiscreetEntry, 2);
-	// 				// }
-	// 			} else {
-	// 			}
-	// 		});
-	// 	} else {
-	// 		console.log(`skip`);
-	// 	}
-	// }
-	// console.log(reignsArr);
-	const reversedReignsArr = reignsArr.reverse();
-	const filteredReignsArray = [];
-	cutdownReigns = function (arr) {
-		arr.forEach((element) => {
-			if (element.id === idRef) {
-				idRef = element.id;
-			} else {
-				filteredReignsArray.push(element);
-				idRef = element.id;
-			}
-		});
-	};
-	cutdownReigns(reversedReignsArr);
-	// console.log(filteredReignsArray);
-	for (const row of rows) {
-		const stopValue = row.ogc_fid;
-		console.log(stopValue);
-		updateFunction = function (arr) {
-			arr.forEach((element) => {
-				if (element.id === stopValue) {
-					const yearsQuery = `UPDATE locales_corrected SET years = '${element.years}' WHERE ogc_fid = ${stopValue}`;
-					console.log(yearsQuery);
-					db.run(yearsQuery, function (err) {
-						if (err) {
-							console.error(err.message);
-						} else {
-							console.log(`Row ${row} updated successfully`);
-						}
-					});
-				}
-			});
-		};
-		updateFunction(filteredReignsArray);
 	}
 });
 //Close the DB connection
