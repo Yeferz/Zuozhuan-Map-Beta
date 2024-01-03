@@ -13,6 +13,8 @@ Ancestral attendant Qu 宗區. Guo. Zhuang 32.3.
 Ao of Youguo 有過澆. Legendary figure of antiquity. Also Ao 澆. Xiang 4.7;
 Ai 1.2.
 Archer Yi. See Lord Yi of Youqiong.
+
+#
 Ba Ji 巴姬. Chu (W). Consort of King Gong of Chu. Zhao 13.2.
 Bai Yi 白乙. Qin. a. Bai Yibing 白乙丙. Xi 32.3, 33.3.
 Baili 百里. Xǔ. Yin 11.3.
@@ -130,6 +132,8 @@ Bu Zhao 步招. Jin. Wen 7.4.
 Buku 不窋. Legendary figure of antiquity. One of the ancestors of Zhou.
 Wen 2.5.
 Buyin, Lord of Hu. See Hu Lord.
+
+#
 Cai Ji 蔡姬. Cai/Qi (W). Sister of Lord Mu of Cai. Wife of Lord Huan of Qi.
 Xi 3.5, 17.5.
 Cai Jiuju 蔡鳩居. Chu. Xuan 12.2.
@@ -238,7 +242,6 @@ Guo Shu 虢叔. Zhuang 16.5, 18.1, 18.2, 20.1, 21.1, 27.5, 30.1, 32.3; Min 2.1; 
 
 
 
-
 Choumu 仇牧. Song. Zhuang 12.3(C), 12.1.
 Chou Wuyu 疇無餘. Yue. Ai 13.3.
 Chouyan 婤姶. Wei (W). Consort of Lord Xiang of Wei. Mother of Gongmeng
@@ -274,6 +277,8 @@ Cui Zhu 崔杼 (d. 546). Qi. Cui lineage head. a. Cui Wuzi 崔武子, b. Wuzi �
 c. Zhu 杼, d. Cui 崔, e. Cuizi 崔子. Xuan 10.2; Cheng 17.9, 18.14(C); Xiang
 1.3(C), 2.9(C), 2.5, 2.7, 6.7, 9.5, 10.8, 14.3, 19.5, 19.8, 23.4, 24.6(C), 24.6, 25.1(C),
 25.2(C), 25.1, 25.2, 25.5, 27.7, 27.9, 28.11.
+
+#
 Dai E 戴惡. Song. Zhao 8.6.
 Dai Gui 戴媯. Chen/Wei (W). Consort of (the first) Lord Zhuang of Wei.
 Mother of Lord Huan of Wei. Yin 3.7.
@@ -411,6 +416,8 @@ Duke of Yu 虞公. Yu (R). Huan 10.4; Xi 2.2, 5.9(C), 5.8.
 Duo Ekou 鐸遏寇. Jin. Cheng 18.3.
 Duofu 鐸父 (d. 548). Qi. Xiang 25.2.
 Durong 督戎 (d. 550). Jin. Xiang 23.3.
+
+#
 E 惡 (d. 609). Lu. Son of Lord Wen of Lu and Ai Jiang. Wen 18.5.
 E, Prince of Wei. See Lord Xiang of Wei.
 E Xi 蛾析. Jin. Xi 15.8.
@@ -427,6 +434,8 @@ Eunuch Liu 寺人柳. Song. Zhao 6.5, 10.5.
 Eunuch Luo 寺人羅. Wei. Ai 15.5.
 Eunuch Mengzhang 寺人孟張. Jin. Xiang 17.7.
 Eunuch Pi 寺人披. Jin. a. Bodi 勃鞮. Xi 5.2, 24.1, 25.6.
+
+#
 Fa 發 (d. 520). Zhou. Son of King Ling or King Jing of Zhou. Zhao 22.5.
 Fan Chi 樊遲. Lu. Disciple of Confucius. a. Xu 須. Ai 11.1.
 Fan Gai 范匄. Jin (d. 548). Fan lineage head. Son of Fan Xie. a. Shi Gai 士匄,
@@ -517,6 +526,8 @@ Fusui, Lord of Qisi 期思公復遂. Chu. Wen 10.5.
 Fuzhi 傅摯. Qi. Xiang 23.4.
 Fuzi 富子. Jin. Zhuang 23.2.
 Fuzi 富子. Zheng. Zhao 16.3.
+
+
 Gai 該. Legendary figure of antiquity. Zhao 29.4.
 Gan 乾. Cai. Ding 4.3.
 Gan Chou 干犨. Song. Zhao 21.6.
@@ -1068,6 +1079,8 @@ Guo Zuo 國佐 (d. 573). Qi. Guo lineage head. Son of Guo Guifu. a. Bin meiren
 10.11; Cheng 2.4(C), 2.3, 15.3(C), 16.1(C), 16.10(C), 16.5, 17.6, 17.9, 18.3(C), 18.2.
 Guozi 國子. Xing (d. 635). Xi 25.1.
 Gurong, Liege of Qǐ. See Lord Huan of Qǐ.
+
+#
 Han Buxin 韓不信. Jin. Han lineage head. Grandson of Han Qi. a. Boyin 伯音,
 b. Han Jianzi 韓簡子. Zhao 32.5(C), 32.3; Ding 1.1, 13.2.
 Han Chuan 韓穿. Jin. Han lineage. Xuan 12.2; Cheng 3.8, 8.1(C), 8.1.
@@ -1310,6 +1323,8 @@ Hun 溷. Song. Yue lineage. Son of Yue Qili. Also Yue Hun. a. Ziming 子明.
 Ding 6.6, 8.3, 9.1.
 Hun Liangfu 渾良夫 (d. 478). Wei. a. Liangfu 良夫. Ai 15.5, 16.7, 17.1, 17.5.
 Hundun 渾敦. Mythological figure of antiquity. Wen 18.7.
+
+#
 Invocator Gu. 祝固. Qi. Zhao 20.6.
 Invocator Kuan 祝款. Zheng. Zhao 16.6.
 Invocator Tuo 祝佗. Wei. a. Ziyu 子魚. Ding 4.1.
@@ -1318,6 +1333,8 @@ Invocator Wa 祝鼃. Wei. Zhao 20.4.
 Invocator Xiang 祝襄. Song. Ai 26.2.
 Invocator Ying 祝應. Guo. Zhuang 32.3.
 Invocator-scribe Hui 祝史揮. Wei. a. Hui 揮. Ai 25.1.
+
+#
 Ji 羈. Wei. Kong lineage. Son of Kong Chengzi. Zhao 7.15.
 Ji of Cao 曹羈. Cao. Zhuang 24.9(C).
 Ji Daozi 季悼子. Lu. Jisun lineage head. Son of Ji Wuzi. a. Daozi 悼子, b. He 紇.
@@ -1429,7 +1446,7 @@ Jin 晉. Qi. Son of Yan Zhuoju. Ai 27.3.
 
 
 
-
+#
 Jin Chen 晉陳 (d. 515). Chu. Zhao 27.3.
 Jin Ji 晉姬. Zhu (W). Consort of Lord Wen of Zhu. Wen 14.4.
 Jin, Prince of Wei. See Lord Xuan of Wei.
@@ -1470,6 +1487,8 @@ Also Jia’ao 郟敖, Jun 麇. Xiang 29.3, 30.1(C), 30.1; Zhao 1.10(C), 1.13,
 Juyao 且姚 (d. 483). Wu. Ai 12.4.
 Juzhi, Master of the Rong 戎子駒支. Jiang Rong. Also Master of the Jiang
 Rong lineage 姜戎氏. Xiang 14.1.
+
+
 Kan, Prince of Wei. See Lord Xian of Wei.
 Kan Zhi 闞止 (d. 481). Qi. Some commentators identify him as Zaiyu, the disciple
 of Confucius. a. Ziwo 子我. Ai 6.6, 14.3.
@@ -1652,6 +1671,8 @@ Kun, Master of Hu 胡子髡. Hu (R). Master of Hu 胡子. Zhao 23.7(C), 23.5.
 Kuntun 髡屯. Zheng. Xi 33.9.
 Kunwan, Liege of Zheng. See Lord Xi of Zheng.
 Kunwu 昆吾. Legendary figure of antiquity. Zhao 12.11, 18.1.
+
+#
 Lady Feng. See Cheng Feng.
 Lady Gui 媯氏. Chen/Zheng. Wife of Gongzi Hu (Lord Zhao of Zheng). Also
 Gui 媯. Yin 8.4.
@@ -2484,6 +2505,8 @@ Lupu Pie 盧蒲嫳. Qi. a. Pie 嫳. Xiang 27.7, 28.9, 28.11; Zhao 3.10.
 Lüqiu Ming 閭丘明. Qi. Ai 8.6, 11.3.
 Lüqiu Xi 閭丘息. Qi. Ai 21.2.
 Lüqiu Ying 閭丘嬰 (d. 542). Qi. a. Ying 嬰. Xiang 25.2, 29.16, 31.2.
+
+#
 Ma Ying 麻嬰 (d. 545). Qi. Xiang 28.9.
 Mai. See Lord Dao of Xǔ.
 Maizhuchu. See Lord Libi of Ju.
@@ -2627,7 +2650,7 @@ Musician Zhoujiu 泠州鳩. Zhou. Zhao 21.1.
 
 
 
-
+#
 Nan Bo 聃伯. Zheng. Xi 2.6.
 Nan Ji 南季. Zhou. Yin 9.1(C).
 Nan Ji 聃季. Zhou. Ding 4.1.
@@ -2680,11 +2703,15 @@ Niuchen of Chao 巢牛臣. Chu. Xiang 25.12.
 
 Nou, the Prince of Jin. See Lord Jing of Jin.
 Nou Yangjian 獳羊肩. Wei. Yin 4.5.
+
+#
 Ou Yang 謳陽. Yue. Ai 13.3.
 Ousted Lord of Wei 衛出公. Wei (R, r. 492–480, 477–470). Son of Kuaikui.
 Also Zhe, Prince of Wei 衛侯輒, Wei hou 衛侯, Zhe 輒. Ai 12.4(C), 12.4,
 15.4, 15.5, 16.1(C), 18.3, 25.1, 26.1, 26.3.
 Overseer Wu 嚻尹午. Chu. Zhao 12.11.
+
+#
 Pan Chong 潘崇. Chu. First person of the Pan lineage of Chu mentioned in
 Zuozhuan. Wen 1.7, 11.1, 14.10.
 Pan Dang 潘黨. Chu. Pan lineage. Son of Pan Wang. a. Shu Dang 叔黨. Also
@@ -2752,6 +2779,8 @@ Prince Xiao 孝侯. Jin (R, r. 739–724). Huan 2.8.
 Prince Zhao 昭侯. Jin (R, r. 746–740). Huan 2.8.
 Pu, from the settlement of Chu 廚人濮. Song. Zhao 21.6.
 Pu Zhan 僕展 (d. 543). Zheng. Xiang 30.10.
+
+#
 Qi 啟. Song. Younger brother of Lord Zhao of Song. Ai 26.2.
 Qi 啟. Song. Hua lineage. Zhao 20.3.
 Qi 棄. Song (W). Consort of Lord Ping of Song. Also wife of the ruler 君夫人.
@@ -2890,6 +2919,8 @@ brother of Zhanyu. a. Quji 去疾, Quji of Ju 莒去疾, Master of Ju 莒子, Lo
 Zhuqiu of Ju 莒著丘公. Zhao 1.7(C), 13.4(C), 14.5(C), 14.4.
 Quji, Prince of Jin. See Lord Qing of Jing.
 Quzi 渠子. Wei. Zhao 20.4.
+
+#
 Ran Dan 然丹. Zheng/Chu. Son of Ziran of Zheng. Grandson of Lord Mu
 of Zheng. a. Zige 子革, b. commander of the right army Zige 右尹子革,
 c. Zheng Dan 鄭丹. Xiang 19.9; Zhao 4.7, 9.2, 11.10, 12.11, 13.2, 14.3, 16.2.
@@ -2933,6 +2964,8 @@ Rui Liangfu 芮良夫. Zhou. Legendary figure of antiquity. Wen 1.9.
 Ruo 弱 (d. 520). Zhou. Son of King Ling or King Jing of Zhou. Zhao 22.5.
 Ruo’ao 若敖. Chu. Ancestor of the Dou lineage and the Cheng lineage in Chu.
 Xuan 12.2; Zhao 23.9.
+
+#
 Sang Yanxu 桑掩胥. Qi. Ai 11.3.
 Scribe Gou 史狗. Wei. Also scribe Gou 史苟, Gou 苟. Xiang 29.13; Zhao 7.15.
 Scribe Gui 史龜. Jin. Ai 9.6.
@@ -3374,6 +3407,8 @@ Supervisor of works Jing 司空靖 (d. 552). Jin. Xiang 21.5.
 Supervisor of works Wuhai 司空無駭. Lu. Also Wuhai 無駭. Yin 2.3(C), 2.3,
 8.9(C).
 Susha Wei 夙沙衛. Qi. Xiang 2.2, 17.3, 18.3, 19.5.
+
+#
 Taihao shi 大暭氏. Legendary ruler of antiquity. Xiang 21.4; Zhao 17.3, 17.5.
 Taijia 大甲. An ancient Shang king. Xiang 21.5.
 Taishu Xizi 大叔僖子. Wei. Shishu (Taishu) lineage. Son of Shishu Shen.
@@ -3419,7 +3454,7 @@ Tuo 佗 (d. 515). Chu. Yang lineage. Zhao 27.3.
 
 
 
-
+#
 Wan 完 (d. 515). Chu. Yang lineage. Zhao 27.3.
 Wan, Liege of Rui 芮伯萬. Rui (R). Also Liege of Rui 芮伯. Huan 3.8, 4.4, 9.3,
 10.3.
@@ -3625,6 +3660,8 @@ Wuqi 無慼. Song. Hua lineage. Son of Hua Hai. Zhao 20.3.
 Wusheng, Liege of Zheng. See Lord Zhuang of Zheng.
 Wuxu. See Zhao Xiangzi.
 Wuye, Prince of Qi. See Lord Qing of Qi.
+
+#
 Xi. 熙. Legendary figure of antiquity. Zhao 29.4.
 Xi Cheng 郤稱. Jin. Xi lineage. Also Xi 郤. Xi 10.3; Zhao 3.4.
 Xi Chou 郤犨 (d. 574). Jin. Xi lineage. Son of Bu Yang. a. Kucheng Shu 苦成叔.
@@ -3854,6 +3891,8 @@ into the Zhonghang 中行 and Zhi 知 lineages.)
 Xun Xi 鄩肸. Zhou. Zhao 22.5.
 Xun Zhui 荀騅. Jin. Xun lineage. Cheng 3.8.
 Xuwu Fan 徐吾犯. Zheng. Zhao 1.7.
+
+#
 Yan 延 (d. 520). Zhou. Son of King Ling or King Jing of Zhou. Zhao 22.5.
 Yan Ao 閻敖. Chu. Zhuang 18.5.
 Yan Furong 晏父戎. Qi. Yan lineage. Xiang 23.4.
@@ -4146,6 +4185,8 @@ Yuyue, Duke of Song. See Lord Huan of Song.
 Yuzhai, Master of Wu 吳子餘祭. Wu (R, r. 547–544). Son of Shoumeng.
 Younger brother of Zhufan. Wu. a. Daiwu 戴吳. Xiang 29.4(C), 29.6, 31.9.
 Yuzhong 虞仲. Yu. Legendary figure of antiquity. Xi 5.8.
+
+#
 Zang Aibo 臧哀伯. Lu. Zangsun lineage head. Son of Zang Xibo. a. Zangsun
 Da 藏孫達. Huan 2.2; Zhuang 11.2.
 Zang Binru 臧賓如. Lu. Zangsun lineage. Son of Zang Hui. Ai 8.6.
