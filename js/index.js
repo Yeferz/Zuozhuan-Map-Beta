@@ -128,7 +128,6 @@ fetch('js/data.json')
 					let labelChinese = indexedLocale.hanzi;
 					// console.log(labelChinese);
 					labelChinese.replace(chineseCharactersRegex, '');
-					const yearsWithBC = indexedLocale.years.replaceAll(',', ' ');
 					// let chineseOnlyText = indexedLocale.hanzi
 					// 	.match(chineseCharactersRegex)
 					// 	.join('');
@@ -147,17 +146,15 @@ fetch('js/data.json')
 					).addTo(markerGroup);
 					//This defines the popup which you see when you click on a marker.
 					let indexedLocaleString = JSON.stringify(
-						`漢字: ${indexedLocale.hanzi}` +
+						indexedLocale.hanzi +
 							'</p><p>' +
-							`Name: ${indexedLocale.name}` +
+							indexedLocale.name +
 							'</p><p>' +
-							`Polity: ${indexedLocale.polity}` +
+							indexedLocale.polity +
 							'</p><p>' +
-							`Modern location: ${indexedLocale.location}` +
+							indexedLocale.location +
 							'</p><p>' +
-							`Text entries: ${indexedLocale.entries}` +
-							'</p><p>' +
-							`Years: ${yearsWithBC}`
+							indexedLocale.entries
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
@@ -188,7 +185,6 @@ retrieveData = function () {
 			sortIndividualLocales = function (data) {
 				for (let i = 0; i < data.length; i++) {
 					let indexedLocale = data[i];
-					const yearsWithBC = indexedLocale.years.replaceAll(',', ' ');
 					// console.log(indexedLocale);
 					// console.log(indexedLocale.latitude);
 					if (
@@ -241,17 +237,15 @@ retrieveData = function () {
 							}
 						).addTo(markerGroup);
 						let indexedLocaleString = JSON.stringify(
-							`漢字: ${indexedLocale.hanzi}` +
+							indexedLocale.hanzi +
 								'</p><p>' +
-								`Name: ${indexedLocale.name}` +
+								indexedLocale.name +
 								'</p><p>' +
-								`Polity: ${indexedLocale.polity}` +
+								indexedLocale.polity +
 								'</p><p>' +
-								`Modern location: ${indexedLocale.location}` +
+								indexedLocale.location +
 								'</p><p>' +
-								`Text entries: ${indexedLocale.entries}` +
-								'</p><p>' +
-								`Years: ${yearsWithBC}`
+								indexedLocale.entries
 						);
 						indexedLocaleString = indexedLocaleString.slice(1, -1);
 						// console.log(indexedLocaleString);
