@@ -145,16 +145,19 @@ fetch('js/data.json')
 						}
 					).addTo(markerGroup);
 					//This defines the popup which you see when you click on a marker.
+					const yearsString = indexedLocale.years;
 					let indexedLocaleString = JSON.stringify(
-						indexedLocale.hanzi +
+						`Hanzi/漢字: ${indexedLocale.hanzi}` +
 							'</p><p>' +
-							indexedLocale.name +
+							`Romanized name: ${indexedLocale.name}` +
 							'</p><p>' +
-							indexedLocale.polity +
+							`Associated polity: ${indexedLocale.polity}` +
 							'</p><p>' +
-							indexedLocale.location +
+							`Modern location: ${indexedLocale.location}` +
 							'</p><p>' +
-							indexedLocale.entries
+							`Found in: ${indexedLocale.entries}` +
+							'</p><p>' +
+							`Years BC: ${yearsString}`
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
@@ -237,15 +240,17 @@ retrieveData = function () {
 							}
 						).addTo(markerGroup);
 						let indexedLocaleString = JSON.stringify(
-							indexedLocale.hanzi +
+							`Hanzi/漢字: ${indexedLocale.hanzi}` +
 								'</p><p>' +
-								indexedLocale.name +
+								`Romanized name: ${indexedLocale.name}` +
 								'</p><p>' +
-								indexedLocale.polity +
+								`Associated polity: ${indexedLocale.polity}` +
 								'</p><p>' +
-								indexedLocale.location +
+								`Modern location: ${indexedLocale.location}` +
 								'</p><p>' +
-								indexedLocale.entries
+								`Found in: ${indexedLocale.entries}` +
+								'</p><p>' +
+								`Years BC: ${yearsString}`
 						);
 						indexedLocaleString = indexedLocaleString.slice(1, -1);
 						// console.log(indexedLocaleString);
