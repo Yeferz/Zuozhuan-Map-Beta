@@ -26,24 +26,51 @@ db.all(query, [], (err, rows) => {
 	}
 	//This bit of the script aims to take each unique polity and push them to an array, this will be useful later because we will want to assign mean coordinates to each of the categories.
 	//We have now isolated all unique polities and pushed them to an array.
-	let uniquePolities = [];
+	let politiesArray = [];
+	let uniquePolitiesArray = new Set();
 	for (const row of rows) {
 		const stopValue = row.polity;
 		const testRegex = RegExp(/\b[A-Z][a-zA-Z]*\b/g);
 		if (testRegex.test(stopValue)) {
 			const makeBoundaries = stopValue.match(testRegex);
+			function location(polity, latitude, longitude) {
+				this.polity = polity;
+				this.latitude = latitude;
+				this.longitude = longitude;
+			}
 			makeBoundaries.forEach((element) => {
-				if (!uniquePolities.includes(element)) {
-					const polityObject = { polity: element, coordinates: null };
-					uniquePolities.push(polityObject);
-				}
+				const polityObject = new location(element, row.latitude, row.longitude);
+				politiesArray.push(polityObject);
+				console.log(Object.keys(polityObject));
+				uniquePolitiesArray.add(element);
 			});
-			console.log(stopValue, testRegex, makeBoundaries);
+			// console.log(stopValue, testRegex, makeBoundaries);
 		}
 		//This bit will test all locations and assign them mean coordinates based on the mean for that polity
-		const unknownLocationTest = 'Unk';
 	}
-	console.log(uniquePolities);
+	let latitude = 0;
+	let longitude = 0;
+	let totalLatitudes = new Map();
+	let totalLongitudes = new Map();
+	uniquePolitiesArray.forEach((value) => {
+		const loop = value;
+		politiesArray.forEach((value) => {
+			let i = 0;
+			if (loop === value) {
+				latitude = latitude + politiesArray[i].latitude;
+				longitude = longitude + politiesArray[i].longitude;
+				totalLatitudes.set(value, latitude);
+				totalLongitudes.set(value, longitude);
+			}
+			i += 1;
+		});
+	});
+	console.log(
+		politiesArray,
+		uniquePolitiesArray,
+		totalLatitudes,
+		totalLongitudes
+	);
 });
 
 //Close the DB connection
