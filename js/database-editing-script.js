@@ -41,36 +41,62 @@ db.all(query, [], (err, rows) => {
 			makeBoundaries.forEach((element) => {
 				const polityObject = new location(element, row.latitude, row.longitude);
 				politiesArray.push(polityObject);
-				console.log(Object.keys(polityObject));
+				// console.log(Object.keys(polityObject));
 				uniquePolitiesArray.add(element);
 			});
 			// console.log(stopValue, testRegex, makeBoundaries);
 		}
-		//This bit will test all locations and assign them mean coordinates based on the mean for that polity
 	}
-	let latitude = 0;
-	let longitude = 0;
+	//This bit will test all locations and assign them mean coordinates based on the mean for that polity. It loops over the set, and for each value checks against every piece of the
 	let totalLatitudes = new Map();
 	let totalLongitudes = new Map();
+	let latLongTotal = new Map();
 	uniquePolitiesArray.forEach((value) => {
+		let latitude = 0;
+		let longitude = 0;
+		let x = 0;
 		const loop = value;
+		// console.log(loop);
 		politiesArray.forEach((value) => {
 			let i = 0;
-			if (loop === value) {
+			// console.log(value);
+			if (value.polity === loop) {
 				latitude = latitude + politiesArray[i].latitude;
 				longitude = longitude + politiesArray[i].longitude;
-				totalLatitudes.set(value, latitude);
-				totalLongitudes.set(value, longitude);
+				totalLatitudes.set(loop, latitude);
+				totalLongitudes.set(loop, longitude);
+				x = x + 1;
+				latLongTotal.set(loop, x);
 			}
 			i += 1;
 		});
 	});
-	console.log(
-		politiesArray,
-		uniquePolitiesArray,
-		totalLatitudes,
-		totalLongitudes
-	);
+	function meanLatLong(polity, latitude, longitude) {
+		this.polity = polity;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	for (value of latLongTotal) {
+		const keyName = value.keys();
+		const valueName = value.values();
+		console.log(keyName, valueName);
+		const meanLatitude = totalLatitudes.keys(value) / value;
+		const meanLongitude = totalLongitudes.keys(value) / value;
+
+		const averageCoordinates = new meanLatLong(
+			value,
+			meanLatitude,
+			meanLongitude
+		);
+		console.log(averageCoordinates);
+	}
+	// console.log(
+	// 	politiesArray,
+	// 	uniquePolitiesArray,
+	// 	totalLatitudes,
+	// 	totalLongitudes,
+	// 	latLongTotal
+	// );
 });
 
 //Close the DB connection
