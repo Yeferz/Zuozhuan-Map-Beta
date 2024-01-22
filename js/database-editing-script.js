@@ -9,6 +9,7 @@ const path = require('path');
 const fs = require('fs');
 const { where } = require('@tensorflow/tfjs');
 const dbPath = path.join(__dirname, '../Database.sqlite');
+let meanLatLongsArray = [];
 //Open the database
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 	if (err) {
@@ -71,32 +72,38 @@ db.all(query, [], (err, rows) => {
 			i += 1;
 		});
 	});
+	//This bit of the codetakes the three maps we just created and finds the matching key pairs, then divides the total coordinates by the number of appearances of the key to give a mean value for each coordinate.
 	function meanLatLong(polity, latitude, longitude) {
 		this.polity = polity;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-	for (value of latLongTotal) {
-		const keyName = value.keys();
-		const valueName = value.values();
-		console.log(keyName, valueName);
-		const meanLatitude = totalLatitudes.keys(value) / value;
-		const meanLongitude = totalLongitudes.keys(value) / value;
-
-		const averageCoordinates = new meanLatLong(
-			value,
-			meanLatitude,
-			meanLongitude
-		);
-		console.log(averageCoordinates);
+	for (let [key, value] of latLongTotal.entries()) {
+		const x = value;
+		const y = key;
+		console.log(value);
+		for (let [key, value] of totalLatitudes.entries()) {
+			if (key == y) {
+				const avgLat = value / x;
+				for (let [key, value] of totalLongitudes.entries()) {
+					// console.log(key, value);
+					if (key == y) {
+						const avgLong = value / x;
+						const avgObject = new meanLatLong(key, avgLat, avgLong);
+						meanLatLongsArray.push(avgObject);
+					}
+				}
+			}
+		}
 	}
-	// console.log(
-	// 	politiesArray,
-	// 	uniquePolitiesArray,
-	// 	totalLatitudes,
-	// 	totalLongitudes,
-	// 	latLongTotal
-	// );
+	console.log(
+		// politiesArray,
+		// uniquePolitiesArray,
+		// totalLatitudes,
+		// totalLongitudes,
+		// latLongTotal,
+		meanLatLongsArray
+	);
 });
 
 //Close the DB connection
