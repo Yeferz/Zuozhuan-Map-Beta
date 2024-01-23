@@ -91,19 +91,20 @@ db.all(query, [], (err, rows) => {
 						const avgLong = value / x;
 						const avgObject = new meanLatLong(key, avgLat, avgLong);
 						meanLatLongsArray.push(avgObject);
+						const query = `UPDATE locales_corrected SET latitude = ${avgLat}, longitude = ${avgLong} WHERE location = 'Unk' AND polity LIKE '${key}'`;
+						console.log(key, query);
+						db.run(query, [], function (err) {
+							if (err) {
+								console.error('error:', err.message);
+							} else {
+								console.log('updated');
+							}
+						});
 					}
 				}
 			}
 		}
 	}
-	console.log(
-		// politiesArray,
-		// uniquePolitiesArray,
-		// totalLatitudes,
-		// totalLongitudes,
-		// latLongTotal,
-		meanLatLongsArray
-	);
 });
 
 //Close the DB connection
