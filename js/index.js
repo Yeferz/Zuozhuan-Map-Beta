@@ -146,6 +146,14 @@ fetch('js/data.json')
 					).addTo(markerGroup);
 					//This defines the popup which you see when you click on a marker.
 					const yearsString = indexedLocale.years;
+					//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
+					var yearsToNumber = yearsString.split(',');
+					const yearsToNumberArr = [];
+					for (value of yearsToNumber) {
+						const x = Number(value);
+						yearsToNumberArr.push(x);
+					}
+					console.log(yearsToNumberArr);
 					let indexedLocaleString = JSON.stringify(
 						`Hanzi/漢字: ${indexedLocale.hanzi}` +
 							'</p><p>' +
@@ -157,7 +165,7 @@ fetch('js/data.json')
 							'</p><p>' +
 							`Found in: ${indexedLocale.entries}` +
 							'</p><p>' +
-							`Years BC: ${yearsString}`
+							`Years BC: ${yearsToNumberArr}`
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
