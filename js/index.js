@@ -13,6 +13,32 @@ var numberFormatter = wNumb({
 	postfix: ` BC`,
 	decimals: 0,
 });
+const reignYears = new Map([
+	['Ai', -494],
+	['Ding', -508],
+	['Zhao', -540],
+	['Xiang', -571],
+	['Cheng', -589],
+	['Xuan', -607],
+	['Wen', -625],
+	['Xi', -658],
+	['Min', -660],
+	['Zhuang', -692],
+	['Huan', -710],
+	['Yin', -722],
+]);
+const ctextReignTextStrings = [
+	'-yuan-nian',
+	'-er-nian',
+	'-san-nian',
+	'-si-nian',
+	'-wu-nian',
+	'-liu-nian',
+	'-qi-nian',
+	'-ba-nian',
+	'-jiu-nian',
+	'-shi-nian',
+];
 noUiSlider.create(slidervar, {
 	connect: true,
 	start: [480, 722],
@@ -153,7 +179,29 @@ fetch('js/data.json')
 						const x = Number(value);
 						yearsToNumberArr.push(x);
 					}
-					console.log(yearsToNumberArr);
+					//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
+					let z;
+					//This function takes the reignyears and returns a new array with each
+					function dukeParser(value, index, array) {
+						for (const [duke, year] of reignYears.entries()) {
+							if (year + value <= 0) {
+								const p = year / -1 - value;
+								return [duke, p];
+							}
+						}
+					}
+					const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
+					console.log(yearsToNumberArrParsed, yearsToNumber);
+					// console.log(reignYears, z);
+					//This function will give us the duke's name and year to be passed into the url.
+					function dukeNameAndYear() {
+						for (const [duke, year] of yearsToNumberArrParsed.entries()) {
+						}
+					}
+					const duke = `/${dukeNameAndYear(yearsToNumberArrParsed)}`;
+					const locationHanzi = `/${indexedLocale.hanzi}`;
+					const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${duke}${locationHanzi}`;
+					const urnSearch = `<a href="${urnString}">${yearsToNumber}</a>`;
 					let indexedLocaleString = JSON.stringify(
 						`Hanzi/漢字: ${indexedLocale.hanzi}` +
 							'</p><p>' +
@@ -165,7 +213,7 @@ fetch('js/data.json')
 							'</p><p>' +
 							`Found in: ${indexedLocale.entries}` +
 							'</p><p>' +
-							`Years BC: ${yearsToNumberArr}`
+							`Years BC: ${urnSearch}`
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
