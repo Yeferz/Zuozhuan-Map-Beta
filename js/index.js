@@ -27,6 +27,7 @@ const reignYears = new Map([
 	['Huan', -710],
 	['Yin', -722],
 ]);
+const chineseNumberString = ['-shi','-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu'];
 const ctextReignTextStrings = [
 	'-yuan-nian',
 	'-er-nian',
@@ -196,6 +197,17 @@ fetch('js/data.json')
 					//This function will give us the duke's name and year to be passed into the url.
 					function dukeNameAndYear() {
 						for (const [duke, year] of yearsToNumberArrParsed.entries()) {
+							const chineseYear = for (let i = 0; i < data.length; i++) {
+								const x = i;
+								for (let i = 0; i < data.length; i++) {
+									if (x = 0 && i = 0) {
+										return `-yuan`} else if (x = 0) {
+										return `${chineseNumberString[i]}`} else if {
+									return `${chineseNumberString[x]}${chineseNumberString[i]}`}
+								}
+							}  
+								chineseNumberString[year]
+							return `${duke}-gong-${chineseYear}`
 						}
 					}
 					const duke = `/${dukeNameAndYear(yearsToNumberArrParsed)}`;
