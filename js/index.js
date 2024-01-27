@@ -27,7 +27,6 @@ const reignYears = new Map([
 	['Huan', -710],
 	['Yin', -722],
 ]);
-const chineseNumberString = ['-shi','-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu'];
 const ctextReignTextStrings = [
 	'-yuan-nian',
 	'-er-nian',
@@ -192,25 +191,34 @@ fetch('js/data.json')
 						}
 					}
 					const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
-					console.log(yearsToNumberArrParsed, yearsToNumber);
+					// console.log(yearsToNumberArrParsed);
 					// console.log(reignYears, z);
-					//This function will give us the duke's name and year to be passed into the url.
-					function dukeNameAndYear() {
-						for (const [duke, year] of yearsToNumberArrParsed.entries()) {
-							const chineseYear = for (let i = 0; i < data.length; i++) {
+					//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
+					function dukeNameAndYear(input) {
+						for (const [key, value] of input) {
+							let chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
+							const y = value;
+							let counter = 0;
+							const chineseYear = function (value) {
+								console.log(value)
+								let result = '';
+								for (let i = 0; i < chineseNumberString.length; i++) {
 								const x = i;
-								for (let i = 0; i < data.length; i++) {
-									if (x = 0 && i = 0) {
-										return `-yuan`} else if (x = 0) {
-										return `${chineseNumberString[i]}`} else if {
-									return `${chineseNumberString[x]}${chineseNumberString[i]}`}
+								for (let i = 0; i < chineseNumberString.length; i++) {
+									counter ++;
+									if (counter == value && x == 0 && i == 0 ) {
+										result = `-yuan`} else if (x == 0 && counter == value) {
+										result = `${chineseNumberString[i]}`} else if (counter == value && x == 1)  {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
+									result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
 								}
-							}  
-								chineseNumberString[year]
-							return `${duke}-gong-${chineseYear}`
+							} console.log(result);
+							return result;};
+
+							const chineseYearResult = chineseYear(y);
+							return `/${key}-gong${chineseYearResult}-nian`;
 						}
-					}
-					const duke = `/${dukeNameAndYear(yearsToNumberArrParsed)}`;
+					};
+					const duke = dukeNameAndYear(yearsToNumberArrParsed);
 					const locationHanzi = `/${indexedLocale.hanzi}`;
 					const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${duke}${locationHanzi}`;
 					const urnSearch = `<a href="${urnString}">${yearsToNumber}</a>`;
