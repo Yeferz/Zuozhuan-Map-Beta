@@ -217,15 +217,13 @@ fetch('js/data.json')
 							} 
 							// console.log(result);
 							return result;};
-							const locationHanzi = `${indexedLocale.hanzi}`;
-
 							const chineseYearResult = chineseYear(y);
 							const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
 							const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
-							const urnSearch = `<a href="${urnString}#:~:text=${locationHanzi}">${yearsToNumberArr[c]}</a>`;
+							const urnSearch = `<a href="${urnString}#:~:text=${indexedLocale.hanzi}">${yearsToNumberArr[c]}</a>`;
 							c++;
 							if (yearsToNumber == [1]) {
-								yearsLinksArr.push('null');} else {
+							yearsLinksArr.push('null');} else {
 yearsLinksArr.push(urnSearch);}
 						}
 					};
@@ -303,6 +301,9 @@ retrieveData = function () {
 							indexedLocale.years >= rangeLow &&
 							indexedLocale.years <= rangeHigh)
 					) {
+						// var hanziLength = toString(indexedLocale.hanzi);
+	
+						// This was a failed attempt to define the labels such that the user only sees Chinese characters, I will attempt to get this bit working at a later date.
 						let chineseCharactersRegex =
 							/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
 						let labelChinese = indexedLocale.hanzi;
@@ -312,6 +313,7 @@ retrieveData = function () {
 						// 	.match(chineseCharactersRegex)
 						// 	.join('');
 						//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
+						//This creates the markers and adjusts the size based on the amount of text.
 						markerStyle = L.divIcon({
 							className: 'custom-marker',
 							html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
@@ -323,6 +325,64 @@ retrieveData = function () {
 								icon: markerStyle,
 							}
 						).addTo(markerGroup);
+						//This defines the popup which you see when you click on a marker.
+						const yearsString = indexedLocale.years;
+						//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
+						let yearsToNumber;
+						if (yearsString !== null) {yearsToNumber = yearsString.split(',')} else {yearsToNumber = [1];};
+						const yearsToNumberArr = [];
+						for (value of yearsToNumber) {
+							const x = Number(value);
+							yearsToNumberArr.push(x);
+						}
+						//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
+						//This function takes the reignyears and returns a new array with each
+						function dukeParser(value, index, array) {
+							for (const [duke, year] of reignYears.entries()) {
+								if (year + value <= 0) {
+									const p = year / -1 - value;
+									return [duke, p];
+								}
+							}
+						}
+						const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
+						//This counter will let the dukeNameAndYear function cycle over the years array.
+						let c = 0;
+						let yearsLinksArr = [];
+						// console.log(yearsToNumberArrParsed);
+						// console.log(reignYears, z);
+						//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
+						function dukeNameAndYear(input) {
+							for (const [key, value] of input) {
+								let chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
+								const y = value;
+								let counter = 0;
+								const chineseYear = function (value) {
+									// console.log(value)
+									let result = '';
+									for (let i = 0; i < chineseNumberString.length; i++) {
+									const x = i;
+									for (let i = 0; i < chineseNumberString.length; i++) {
+										counter ++;
+										if (counter == value && x == 0 && i == 0 ) {
+											result = `-yuan`} else if (x == 0 && counter == value) {
+											result = `${chineseNumberString[i]}`} else if (counter == value && x == 1)  {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
+										result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
+									}
+								} 
+								// console.log(result);
+								return result;};
+								const chineseYearResult = chineseYear(y);
+								const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
+								const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
+								const urnSearch = `<a href="${urnString}#:~:text=${indexedLocale.hanzi}">${yearsToNumberArr[c]}</a>`;
+								c++;
+								if (yearsToNumber == [1]) {
+								yearsLinksArr.push('null');} else {
+	yearsLinksArr.push(urnSearch);}
+							}
+						};
+						dukeNameAndYear(yearsToNumberArrParsed);
 						let indexedLocaleString = JSON.stringify(
 							`Hanzi/漢字: ${indexedLocale.hanzi}` +
 								'</p><p>' +
@@ -334,7 +394,7 @@ retrieveData = function () {
 								'</p><p>' +
 								`Found in: ${indexedLocale.entries}` +
 								'</p><p>' +
-								`Years BC: ${yearsString}`
+								`Years BC: ${yearsLinksArr}`
 						);
 						indexedLocaleString = indexedLocaleString.slice(1, -1);
 						// console.log(indexedLocaleString);
