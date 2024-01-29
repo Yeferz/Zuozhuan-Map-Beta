@@ -173,7 +173,8 @@ fetch('js/data.json')
 					//This defines the popup which you see when you click on a marker.
 					const yearsString = indexedLocale.years;
 					//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
-					var yearsToNumber = yearsString.split(',');
+					let yearsToNumber;
+					if (yearsString !== null) {yearsToNumber = yearsString.split(',')} else {yearsToNumber = [1];};
 					const yearsToNumberArr = [];
 					for (value of yearsToNumber) {
 						const x = Number(value);
@@ -190,7 +191,7 @@ fetch('js/data.json')
 						}
 					}
 					const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
-					//This counter will let the dukeNameAndYear function cycle over the years array, so that each link will correspond to a 
+					//This counter will let the dukeNameAndYear function cycle over the years array.
 					let c = 0;
 					let yearsLinksArr = [];
 					// console.log(yearsToNumberArrParsed);
@@ -202,7 +203,7 @@ fetch('js/data.json')
 							const y = value;
 							let counter = 0;
 							const chineseYear = function (value) {
-								console.log(value)
+								// console.log(value)
 								let result = '';
 								for (let i = 0; i < chineseNumberString.length; i++) {
 								const x = i;
@@ -213,19 +214,22 @@ fetch('js/data.json')
 										result = `${chineseNumberString[i]}`} else if (counter == value && x == 1)  {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
 									result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
 								}
-							} console.log(result);
+							} 
+							// console.log(result);
 							return result;};
+							const locationHanzi = `${indexedLocale.hanzi}`;
 
 							const chineseYearResult = chineseYear(y);
 							const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
 							const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
-							const urnSearch = `<a href="${urnString}">${yearsToNumberArr[c]}</a>`;
+							const urnSearch = `<a href="${urnString}#:~:text=${locationHanzi}">${yearsToNumberArr[c]}</a>`;
 							c++;
-yearsLinksArr.push(urnSearch);
+							if (yearsToNumber == [1]) {
+								yearsLinksArr.push('null');} else {
+yearsLinksArr.push(urnSearch);}
 						}
 					};
 					dukeNameAndYear(yearsToNumberArrParsed);
-					const locationHanzi = `/${indexedLocale.hanzi}`;
 					let indexedLocaleString = JSON.stringify(
 						`Hanzi/漢字: ${indexedLocale.hanzi}` +
 							'</p><p>' +
