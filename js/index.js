@@ -180,7 +180,6 @@ fetch('js/data.json')
 						yearsToNumberArr.push(x);
 					}
 					//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
-					let z;
 					//This function takes the reignyears and returns a new array with each
 					function dukeParser(value, index, array) {
 						for (const [duke, year] of reignYears.entries()) {
@@ -191,6 +190,9 @@ fetch('js/data.json')
 						}
 					}
 					const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
+					//This counter will let the dukeNameAndYear function cycle over the years array, so that each link will correspond to a 
+					let c = 0;
+					let yearsLinksArr = [];
 					// console.log(yearsToNumberArrParsed);
 					// console.log(reignYears, z);
 					//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
@@ -215,13 +217,15 @@ fetch('js/data.json')
 							return result;};
 
 							const chineseYearResult = chineseYear(y);
-							return `/${key}-gong${chineseYearResult}-nian`;
+							const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
+							const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
+							const urnSearch = `<a href="${urnString}">${yearsToNumberArr[c]}</a>`;
+							c++;
+yearsLinksArr.push(urnSearch);
 						}
 					};
-					const duke = dukeNameAndYear(yearsToNumberArrParsed);
+					dukeNameAndYear(yearsToNumberArrParsed);
 					const locationHanzi = `/${indexedLocale.hanzi}`;
-					const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${duke}${locationHanzi}`;
-					const urnSearch = `<a href="${urnString}">${yearsToNumber}</a>`;
 					let indexedLocaleString = JSON.stringify(
 						`Hanzi/漢字: ${indexedLocale.hanzi}` +
 							'</p><p>' +
@@ -233,7 +237,7 @@ fetch('js/data.json')
 							'</p><p>' +
 							`Found in: ${indexedLocale.entries}` +
 							'</p><p>' +
-							`Years BC: ${urnSearch}`
+							`Years BC: ${yearsLinksArr}`
 					);
 					indexedLocaleString = indexedLocaleString.slice(1, -1);
 					// console.log(indexedLocaleString);
