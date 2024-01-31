@@ -27,18 +27,6 @@ const reignYears = new Map([
 	['Huan', -710],
 	['Yin', -722],
 ]);
-const ctextReignTextStrings = [
-	'-yuan-nian',
-	'-er-nian',
-	'-san-nian',
-	'-si-nian',
-	'-wu-nian',
-	'-liu-nian',
-	'-qi-nian',
-	'-ba-nian',
-	'-jiu-nian',
-	'-shi-nian',
-];
 noUiSlider.create(slidervar, {
 	connect: true,
 	start: [480, 722],
@@ -131,12 +119,11 @@ fetch('js/data.json')
 	.then((data) => {
 		// Process the retrieved JSON data
 		// console.log(data);
-		locales = data;
 		// console.log(locales);
 		// Use the retrieved data for further operations (e.g., creating markers on a map)
 		sortIndividualLocalesOnLoad = function (data) {
 			for (let i = 0; i < data.length; i++) {
-				let indexedLocale = data[i];
+				const indexedLocale = data[i];
 				// console.log(indexedLocale);
 				// console.log(indexedLocale.latitude);
 				if (
@@ -149,11 +136,11 @@ fetch('js/data.json')
 					// var hanziLength = toString(indexedLocale.hanzi);
 
 					// This was a failed attempt to define the labels such that the user only sees Chinese characters, I will attempt to get this bit working at a later date.
-					let chineseCharactersRegex =
-						/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
-					let labelChinese = indexedLocale.hanzi;
+					// let chineseCharactersRegex =
+						// /[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
+					const labelChinese = indexedLocale.hanzi;
 					// console.log(labelChinese);
-					labelChinese.replace(chineseCharactersRegex, '');
+					// labelChinese.replace(chineseCharactersRegex, '');
 					// let chineseOnlyText = indexedLocale.hanzi
 					// 	.match(chineseCharactersRegex)
 					// 	.join('');
@@ -199,10 +186,10 @@ fetch('js/data.json')
 					//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
 					function dukeNameAndYear(input) {
 						for (const [key, value] of input) {
-							let chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
 							const y = value;
 							let counter = 0;
 							const chineseYear = function (value) {
+								const chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
 								// console.log(value)
 								let result = '';
 								for (let i = 0; i < chineseNumberString.length; i++) {
@@ -228,20 +215,16 @@ yearsLinksArr.push(urnSearch);}
 						}
 					};
 					dukeNameAndYear(yearsToNumberArrParsed);
-					let indexedLocaleString = JSON.stringify(
-						`Hanzi/漢字: ${indexedLocale.hanzi}` +
-							'</p><p>' +
-							`Romanized name: ${indexedLocale.name}` +
-							'</p><p>' +
-							`Associated polity: ${indexedLocale.polity}` +
-							'</p><p>' +
-							`Modern location: ${indexedLocale.location}` +
-							'</p><p>' +
-							`Found in: ${indexedLocale.entries}` +
-							'</p><p>' +
-							`Years BC: ${yearsLinksArr}`
-					);
-					indexedLocaleString = indexedLocaleString.slice(1, -1);
+					const paragraphBreak = '</p><p>';
+					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
+					const romanizedName = `Romanized name: ${indexedLocale.name}`;
+					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
+					const modernLocation = `Modern location: ${indexedLocale.location}`;
+					const foundIn = `Found in: ${indexedLocale.entries}`;
+					const yearsBC = `Years BC: ${yearsLinksArr}`;
+					const labelArr = [];
+					labelArr.push(labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC)
+					const indexedLocaleString = labelArr.join();
 					// console.log(indexedLocaleString);
 					localeMarker.bindPopup(indexedLocaleString).openPopup();
 				} else {
@@ -249,7 +232,7 @@ yearsLinksArr.push(urnSearch);}
 				}
 			}
 		};
-		sortIndividualLocalesOnLoad(locales);
+		sortIndividualLocalesOnLoad(data);
 	});
 // console.log(outScopeSlider);
 //This is the same function as earlier but this time filtered with the user defined search term.
@@ -366,7 +349,7 @@ retrieveData = function () {
 										counter ++;
 										if (counter == value && x == 0 && i == 0 ) {
 											result = `-yuan`} else if (x == 0 && counter == value) {
-											result = `${chineseNumberString[i]}`} else if (counter == value && x == 1)  {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
+											result = `${chineseNumberString[i]}`} else if (counter == value && x == 1) {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
 										result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
 									}
 								} 
