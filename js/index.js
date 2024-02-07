@@ -118,47 +118,46 @@ fetch('js/data.json')
 	})
 	.then((data) => {
 		// Process the retrieved JSON data
-		// console.log(data);
-		// console.log(locales);
 		// Use the retrieved data for further operations (e.g., creating markers on a map)
 		sortIndividualLocalesOnLoad = function (data) {
 			for (let i = 0; i < data.length; i++) {
 				const indexedLocale = data[i];
-				// console.log(indexedLocale);
-				// console.log(indexedLocale.latitude);
 				if (
 					indexedLocale.latitude < 42 &&
 					indexedLocale.latitude > 27 &&
 					indexedLocale.longitude < 123 &&
 					indexedLocale.longitude > 99 &&
 					indexedLocale.hanzi != null
-				) {
-					// var hanziLength = toString(indexedLocale.hanzi);
-
-					// This was a failed attempt to define the labels such that the user only sees Chinese characters, I will attempt to get this bit working at a later date.
-					// let chineseCharactersRegex =
-						// /[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
+				)
+				{
+					const latitude = indexedLocale.latitude;
+					const longitude = indexedLocale.longitude;
 					const labelChinese = indexedLocale.hanzi;
-					// console.log(labelChinese);
-					// labelChinese.replace(chineseCharactersRegex, '');
-					// let chineseOnlyText = indexedLocale.hanzi
-					// 	.match(chineseCharactersRegex)
-					// 	.join('');
-					//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
-					//This creates the markers and adjusts the size based on the amount of text.
 					markerStyle = L.divIcon({
 						className: 'custom-marker',
 						html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
 						iconSize: [labelChinese * 1.5, labelChinese * 4],
 					});
 					localeMarker = L.marker(
-						[indexedLocale.latitude, indexedLocale.longitude],
+						[latitude, longitude],
 						{
 							icon: markerStyle,
 						}
 					).addTo(markerGroup);
 					//This defines the popup which you see when you click on a marker.
 					const yearsString = indexedLocale.years;
+					const paragraphBreak = '</p><p>';
+					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
+					const romanizedName = `Romanized name: ${indexedLocale.name}`;
+					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
+					const modernLocation = `Modern location: ${indexedLocale.location}`;
+					const foundIn = `Found in: ${indexedLocale.entries}`;
+					const yearsBC = `Years BC: `;
+					const labelArr = [];
+					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC );
+					localeMarker.openPopup().addEventListener( 'click', () =>
+					{
+						
 					//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
 					let yearsToNumber;
 					if (yearsString !== null) {yearsToNumber = yearsString.split(',')} else {yearsToNumber = [1];};
@@ -168,7 +167,8 @@ fetch('js/data.json')
 						yearsToNumberArr.push(x);
 					}
 					//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
-					//This function takes the reignyears and returns a new array with each
+					
+						//This function takes the reignyears and returns a new array with each entry matched to a reign year.
 					function dukeParser(value, index, array) {
 						for (const [duke, year] of reignYears.entries()) {
 							if (year + value <= 0) {
@@ -181,8 +181,6 @@ fetch('js/data.json')
 					//This counter will let the dukeNameAndYear function cycle over the years array.
 					let c = 0;
 					let yearsLinksArr = [];
-					// console.log(yearsToNumberArrParsed);
-					// console.log(reignYears, z);
 					//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
 					function dukeNameAndYear(input) {
 						for (const [key, value] of input) {
@@ -210,25 +208,19 @@ fetch('js/data.json')
 							const urnSearch = `<a href="${urnString}#:~:text=${indexedLocale.hanzi}">${yearsToNumberArr[c]}</a>`;
 							c++;
 							if (yearsToNumber == [1]) {
-							yearsLinksArr.push('null');} else {
-yearsLinksArr.push(urnSearch);}
+								yearsLinksArr.push( 'null' );
+							} else
+							{
+								yearsLinksArr.push( urnSearch );
+							}
+							labelArr.push( yearsLinksArr );
 						}
 					};
-					dukeNameAndYear(yearsToNumberArrParsed);
-					const paragraphBreak = '</p><p>';
-					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
-					const romanizedName = `Romanized name: ${indexedLocale.name}`;
-					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
-					const modernLocation = `Modern location: ${indexedLocale.location}`;
-					const foundIn = `Found in: ${indexedLocale.entries}`;
-					const yearsBC = `Years BC: ${yearsLinksArr}`;
-					const labelArr = [];
-					labelArr.push(labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC)
-					const indexedLocaleString = labelArr.join();
-					// console.log(indexedLocaleString);
-					localeMarker.bindPopup(indexedLocaleString).openPopup();
+						dukeNameAndYear( yearsToNumberArrParsed );
+						const indexedLocaleString = labelArr.join(' ');
+						localeMarker.openPopup([latitude, longitude]).bindPopup( indexedLocaleString );
+					});
 				} else {
-					// console.log('filter this one out');
 				}
 			}
 		};
@@ -284,106 +276,98 @@ retrieveData = function () {
 							indexedLocale.years >= rangeLow &&
 							indexedLocale.years <= rangeHigh)
 					) {
-						// var hanziLength = toString(indexedLocale.hanzi);
-	
-						// This was a failed attempt to define the labels such that the user only sees Chinese characters, I will attempt to get this bit working at a later date.
-						let chineseCharactersRegex =
-							/[^\u4E00-\u9FFF\s\d!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~]/g;
-						let labelChinese = indexedLocale.hanzi;
-						// console.log(labelChinese);
-						labelChinese.replace(chineseCharactersRegex, '');
-						// let chineseOnlyText = indexedLocale.hanzi
-						// 	.match(chineseCharactersRegex)
-						// 	.join('');
-						//Here we can create a condition to skip ahead to the next thing if the entry is filtered out.
-						//This creates the markers and adjusts the size based on the amount of text.
-						markerStyle = L.divIcon({
-							className: 'custom-marker',
-							html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
-							iconSize: [labelChinese * 1.5, labelChinese * 4],
-						});
-						localeMarker = L.marker(
-							[indexedLocale.latitude, indexedLocale.longitude],
-							{
-								icon: markerStyle,
-							}
-						).addTo(markerGroup);
-						//This defines the popup which you see when you click on a marker.
-						const yearsString = indexedLocale.years;
-						//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
-						let yearsToNumber;
-						if (yearsString !== null) {yearsToNumber = yearsString.split(',')} else {yearsToNumber = [1];};
-						const yearsToNumberArr = [];
-						for (value of yearsToNumber) {
-							const x = Number(value);
-							yearsToNumberArr.push(x);
+					const latitude = indexedLocale.latitude;
+					const longitude = indexedLocale.longitude;
+					const labelChinese = indexedLocale.hanzi;
+					markerStyle = L.divIcon({
+						className: 'custom-marker',
+						html: `<div class="marker-text">${indexedLocale.hanzi}</div>`,
+						iconSize: [labelChinese * 1.5, labelChinese * 4],
+					});
+					localeMarker = L.marker(
+						[latitude, longitude],
+						{
+							icon: markerStyle,
 						}
-						//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
-						//This function takes the reignyears and returns a new array with each
-						function dukeParser(value, index, array) {
-							for (const [duke, year] of reignYears.entries()) {
-								if (year + value <= 0) {
-									const p = year / -1 - value;
-									return [duke, p];
+					).addTo(markerGroup);
+					//This defines the popup which you see when you click on a marker.
+					const yearsString = indexedLocale.years;
+					const paragraphBreak = '</p><p>';
+					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
+					const romanizedName = `Romanized name: ${indexedLocale.name}`;
+					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
+					const modernLocation = `Modern location: ${indexedLocale.location}`;
+					const foundIn = `Found in: ${indexedLocale.entries}`;
+					const yearsBC = `Years BC: `;
+					const labelArr = [];
+					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC );
+					localeMarker.openPopup().addEventListener( 'click', () =>
+					{
+						
+					//A new bit which will add hyperlinks in the years array, begin by turning the years to number so that we can parse it later.
+					let yearsToNumber;
+					if (yearsString !== null) {yearsToNumber = yearsString.split(',')} else {yearsToNumber = [1];};
+					const yearsToNumberArr = [];
+					for (value of yearsToNumber) {
+						const x = Number(value);
+						yearsToNumberArr.push(x);
+					}
+					//Here I will try to write a script which automates links, such that each of the years can be clicked on and will return the passage in which that location is mentioned.
+					
+						//This function takes the reignyears and returns a new array with each entry matched to a reign year.
+					function dukeParser(value, index, array) {
+						for (const [duke, year] of reignYears.entries()) {
+							if (year + value <= 0) {
+								const p = year / -1 - value;
+								return [duke, p];
+							}
+						}
+					}
+					const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
+					//This counter will let the dukeNameAndYear function cycle over the years array.
+					let c = 0;
+					let yearsLinksArr = [];
+					//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
+					function dukeNameAndYear(input) {
+						for (const [key, value] of input) {
+							const y = value;
+							let counter = 0;
+							const chineseYear = function (value) {
+								const chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
+								// console.log(value)
+								let result = '';
+								for (let i = 0; i < chineseNumberString.length; i++) {
+								const x = i;
+								for (let i = 0; i < chineseNumberString.length; i++) {
+									counter ++;
+									if (counter == value && x == 0 && i == 0 ) {
+										result = `-yuan`} else if (x == 0 && counter == value) {
+										result = `${chineseNumberString[i]}`} else if (counter == value && x == 1)  {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
+									result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
 								}
+							} 
+							// console.log(result);
+							return result;};
+							const chineseYearResult = chineseYear(y);
+							const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
+							const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
+							const urnSearch = `<a href="${urnString}#:~:text=${indexedLocale.hanzi}">${yearsToNumberArr[c]}</a>`;
+							c++;
+							if (yearsToNumber == [1]) {
+								yearsLinksArr.push( 'null' );
+							} else
+							{
+								yearsLinksArr.push( urnSearch );
 							}
+							labelArr.push( yearsLinksArr );
 						}
-						const yearsToNumberArrParsed = yearsToNumberArr.map(dukeParser);
-						//This counter will let the dukeNameAndYear function cycle over the years array.
-						let c = 0;
-						let yearsLinksArr = [];
-						// console.log(yearsToNumberArrParsed);
-						// console.log(reignYears, z);
-						//This function will give us the duke's name and year to be passed into the url. It works by looping over the chinese numbers array. I think there is a more elegant way to do this by changing the array when we jump to double digits but I will implement that later.
-						function dukeNameAndYear(input) {
-							for (const [key, value] of input) {
-								let chineseNumberString = ['-yi', '-er', '-san', '-si', '-wu', '-liu', '-qi', '-ba', '-jiu', '-shi'];
-								const y = value;
-								let counter = 0;
-								const chineseYear = function (value) {
-									// console.log(value)
-									let result = '';
-									for (let i = 0; i < chineseNumberString.length; i++) {
-									const x = i;
-									for (let i = 0; i < chineseNumberString.length; i++) {
-										counter ++;
-										if (counter == value && x == 0 && i == 0 ) {
-											result = `-yuan`} else if (x == 0 && counter == value) {
-											result = `${chineseNumberString[i]}`} else if (counter == value && x == 1) {result = `${chineseNumberString[9]}${chineseNumberString[i]}`} else if (counter == value) {
-										result = `${chineseNumberString[x-1]}-shi${chineseNumberString[i]}`}
-									}
-								} 
-								// console.log(result);
-								return result;};
-								const chineseYearResult = chineseYear(y);
-								const dukeYearString = `/${key}-gong${chineseYearResult}-nian`;
-								const urnString = `https://ctext.org/chun-qiu-zuo-zhuan${dukeYearString}`;
-								const urnSearch = `<a href="${urnString}#:~:text=${indexedLocale.hanzi}">${yearsToNumberArr[c]}</a>`;
-								c++;
-								if (yearsToNumber == [1]) {
-								yearsLinksArr.push('null');} else {
-	yearsLinksArr.push(urnSearch);}
-							}
-						};
-						dukeNameAndYear(yearsToNumberArrParsed);
-						let indexedLocaleString = JSON.stringify(
-							`Hanzi/漢字: ${indexedLocale.hanzi}` +
-								'</p><p>' +
-								`Romanized name: ${indexedLocale.name}` +
-								'</p><p>' +
-								`Associated polity: ${indexedLocale.polity}` +
-								'</p><p>' +
-								`Modern location: ${indexedLocale.location}` +
-								'</p><p>' +
-								`Found in: ${indexedLocale.entries}` +
-								'</p><p>' +
-								`Years BC: ${yearsLinksArr}`
-						);
-						indexedLocaleString = indexedLocaleString.slice(1, -1);
-						// console.log(indexedLocaleString);
-						localeMarker.bindPopup(indexedLocaleString).openPopup();
-					} else {
-						// console.log('filter this one out');
+					};
+						dukeNameAndYear( yearsToNumberArrParsed );
+						const indexedLocaleString = labelArr.join(' ');
+						localeMarker.openPopup([latitude, longitude]).bindPopup( indexedLocaleString );
+					} );
+					} else
+					{
 					}
 				}
 			};
@@ -442,7 +426,11 @@ slidervar.noUiSlider.on('update', function (values, handle) {
 	//we will definitely do more here...wait
 });
 searchPolity.addEventListener('click', setPolity);
-clearResult.addEventListener('click', clearPolity);
+clearResult.addEventListener( 'click', clearPolity );
+
+
+
+					
 // retrieveData();
 
 //These are some buttons which I wrote but decided not to include, in future I might re-implement them so I've left the code commented out.
