@@ -213,6 +213,7 @@ fetch('js/data.json')
 							{
 								yearsLinksArr.push( urnSearch );
 							}
+							labelArr.pop();
 							labelArr.push( yearsLinksArr );
 						}
 					};

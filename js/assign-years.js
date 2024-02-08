@@ -61,10 +61,12 @@ db.all(query, [], (err, rows) => {
 	for (const row of rows) {
 		const stopValue = row.entries; // Replace 'columnName' with the name of your column
 		let sliceKeyUpdate;
-		// Check if stopValue matches any key in reignYears
+		// Check if stopValue matches any key in reignYears.
 		for (const key in reignYears) {
-			const regexPattern = new RegExp(`\\b${key}\\b`);
+			const regexPattern = new RegExp( `\\b${ key }\\b` );
+			//Turn the reign name into a string
 			const keyString = key.toString();
+			//Stop at entries and test to see if the reignyears occurs.
 			if (regexPattern.test(stopValue)) {
 				const mapFilterRegex = new RegExp(`See map [0-9]`);
 				const entriesString = stopValue.toString();
@@ -72,6 +74,7 @@ db.all(query, [], (err, rows) => {
 					mapFilterRegex,
 					``
 				);
+				//Not quite sure what this bit does - need to rerun to check.
 				const sliceKey = entriesStringMapRemoved.indexOf(keyString);
 				const reignString = entriesStringMapRemoved.slice(
 					sliceKey,

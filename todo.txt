@@ -1,2 +1,4 @@
 Write in links to Ctext so that the user can click a year and be taken through to that particular reference.
-Build the 
+
+
+Next project: build an interface to let the user search the locales corrected database.
