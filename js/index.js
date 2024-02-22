@@ -147,14 +147,15 @@ fetch('js/data.json')
 					//This defines the popup which you see when you click on a marker.
 					const yearsString = indexedLocale.years;
 					const paragraphBreak = '</p><p>';
-					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
+					const labelHanzi = `Hanzi/&#28450;&#23376;: ${indexedLocale.hanzi}`;
 					const romanizedName = `Romanized name: ${indexedLocale.name}`;
 					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
 					const modernLocation = `Modern location: ${indexedLocale.location}`;
 					const foundIn = `Found in: ${indexedLocale.entries}`;
-					const yearsBC = `Years BC: `;
+					const yearsBC = `Ctext link for year BC: `;
+					const buffer = '_';
 					const labelArr = [];
-					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC );
+					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC, buffer );
 					localeMarker.openPopup().addEventListener( 'click', () =>
 					{
 						
@@ -294,14 +295,15 @@ retrieveData = function () {
 					//This defines the popup which you see when you click on a marker.
 					const yearsString = indexedLocale.years;
 					const paragraphBreak = '</p><p>';
-					const labelHanzi = `Hanzi/漢字: ${indexedLocale.hanzi}`;
+					const labelHanzi = `Hanzi/&#28450;&#23376;: ${indexedLocale.hanzi}`;
 					const romanizedName = `Romanized name: ${indexedLocale.name}`;
 					const associatedPolity = `Associated polity: ${indexedLocale.polity}`;
 					const modernLocation = `Modern location: ${indexedLocale.location}`;
 					const foundIn = `Found in: ${indexedLocale.entries}`;
-					const yearsBC = `Years BC: `;
+					const yearsBC = `Ctext link for year BC: `;
+					const buffer = '_';
 					const labelArr = [];
-					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC );
+					labelArr.push( labelHanzi, paragraphBreak, romanizedName, paragraphBreak, associatedPolity, paragraphBreak, modernLocation, paragraphBreak, foundIn, paragraphBreak, yearsBC, buffer );
 					localeMarker.openPopup().addEventListener( 'click', () =>
 					{
 						
