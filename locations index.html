@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>CSV to HTML Table</title>
+  <script src="js/locations index.js"></script>
 </head>
 <body>
         
@@ -12,6 +13,11 @@
     <a href="./translations.html">Translations</a>
     <a href="./personae index.html">Personae Index</a>
   </nav>
+  <form>
+    <h2>Search database</h2>
+    <input id="Search"></input>
+    <button type="button" onclick="search()">search</button>
+  </form>
   <div id="table-container"></div>
   <script src="js/papaparse.min.js"></script>
 
