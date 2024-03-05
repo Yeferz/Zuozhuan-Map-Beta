@@ -30,9 +30,9 @@ class personae(Base):
     details = Column(TEXT, nullable=True)
     entries = Column(TEXT, nullable=True)
 
-sqlite_engine = create_engine('sqlite:///C:/Users/naiya/Documents/GitHub/Zuozhuan-Map-Beta/Database.sqlite')
+sqlite_engine = create_engine('sqlite:///main/yefren/github/Zuozhuan-Map-Beta')
 
-mysql_engine = create_engine('mysql+pymysql://root:Sc242hdF@localhost:4000/maindb')
+mysql_engine = create_engine('mysql+pymysql://root:yefren@Regulus:3306/maindb')
 
 SQLite_session = sessionmaker(bind=sqlite_engine)
 sqlite_session = SQLite_session()

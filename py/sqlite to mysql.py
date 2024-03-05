@@ -38,11 +38,11 @@ def import_csv_to_mysql(csv_files, mysql_host, mysql_user, mysql_password, mysql
 
 if __name__ == "__main__":
     # SQLite settings
-    sqlite_file = r'C:\Users\naiya\Documents\GitHub\Zuozhuan-Map-Beta\Database.sqlite'
+    sqlite_file = r'/home/yefren/github/Zuozhuan-Map-Beta/Database.sqlite'
     table_names = ['locales_corrected', 'personae']
 
     # CSV output directory
-    csv_output_directory = r'C:\Users\naiya\Documents\GitHub\Zuozhuan-Map-Beta\csv'
+    csv_output_directory = r'/home/yefren/github/Zuozhuan-Map-Beta/csv'
 
     # Create the output directory if it doesn't exist
     os.makedirs(csv_output_directory, exist_ok=True)
