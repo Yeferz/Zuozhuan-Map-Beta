@@ -1,35 +1,82 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Database Search - PHP/MySQL Demo Code</title>
-</head>
-
-<body>
-<fieldset>
-<legend>Search the database</legend>
-<form name="frmSearch" method="post" action="php/database.php">
-<p>
-<label for="Name">Name </label>
-<input type="text" name="txtName" id="txtName">
-</p>
-<p>
-<label for="email">Location</label>
-<input type="text" name="txtLocation" id="txtLocation">
-</p>
-<p>
-<label for="phone">Year</label>
-<input type="text" name="txtYear" id="txtYear">
-</p>
-<p>
-    <label for="phone">Entry</label>
-    <input type="text" name="txtEntry" id="txtEntry">
-</p>
-<p>&nbsp;</p>
-<p>
-<input type="search" name="Search" id="Search" value="Search">
-</p>
-</form>
-</fieldset>
-</body>
-</html>
+<html>
+    <head>
+    <title>Database search test</title>
+    <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="bootstrap-theme.css" crossorigin="anonymous">
+    <style>
+    .container{
+        width:70%;
+        height:30%;
+        padding:20px;
+    }
+    </style>
+    </head>
+    
+    <body>
+        <div class="container">
+        <h3><u>PHP SQLite search database and display results</u></h3>
+        <br/><br/>
+        <form class="form-horizontal" action="/Zuozhuan-Map-Beta/php/database.php" method="post">
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="email"><b>Search Database:</b>:</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" name="search" placeholder="search here">
+                </div>
+                <div class="col-sm-2">
+                  <button type="submit" name="save" class="btn btn-success btn-sm">Submit</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <span class="error" style="color:red;">* <?php echo $searchErr;?></span>
+            </div>
+            
+        </div>
+        </form>
+        <br/><br/>
+        <h3><u>Search Result</u></h3><br/>
+        <div class="table-responsive">          
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Employee Name</th>
+                <th>Phone No</th>
+                <th>Age</th>
+                <th>Department</th>
+              </tr>
+            </thead>
+            <tbody>
+                    <?php
+                     if(!$employee_details)
+                     {
+                        echo '<tr>No data found</tr>';
+                     }
+                     else{
+                         foreach($employee_details as $key=>$value)
+                         {
+                             ?>
+                         <tr>
+                             <td><?php echo $key+1;?></td>
+                             <td><?php echo $value['name'];?></td>
+                             <td><?php echo $value['phone_no'];?></td>
+                             <td><?php echo $value['age'];?></td>
+                             <td><?php echo $value['department'];?></td>
+                         </tr>
+                             
+                             <?php
+                         }
+                         
+                     }
+                    ?>
+                
+             </tbody>
+          </table>
+        </div>
+    </div>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    </body>
+    </html>
+    
